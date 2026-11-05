@@ -19,7 +19,7 @@ class Account::ExportsController < ApplicationController
     @export.build_later
 
     respond_to do |format|
-      format.html { redirect_to account_settings_path, notice: "Export started. You'll receive an email when it's ready." }
+      format.html { redirect_to account_settings_path, notice: "Экспорт начат. Вы получите письмо, когда он будет готов." }
       format.json { render :show, status: :created }
     end
   end

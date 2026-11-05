@@ -91,7 +91,7 @@ class Oauth::TokensController < Oauth::BaseController
       if access_token = @client.redeem(@auth_code, identity: @identity, permission: permission, audience: @auth_code.audience, account_id: @auth_code.account_id)
         render json: token_response(access_token, scope: granted)
       else
-        oauth_error "invalid_grant", "Authorization code already used"
+        oauth_error "invalid_grant", "Код авторизации уже использован"
       end
     elsif @retired_refresh_token
       answer_refresh_replay @retired_refresh_token
@@ -101,10 +101,10 @@ class Oauth::TokensController < Oauth::BaseController
       # A concurrent refresh won the rotation: this is the same retry.
       answer_refresh_replay retired_refresh_token
     else
-      oauth_error "invalid_grant", "Invalid refresh token"
+      oauth_error "invalid_grant", "Недействительный токен обновления"
     end
   rescue ActiveRecord::RecordNotFound
-    oauth_error "invalid_grant", "Unknown client"
+    oauth_error "invalid_grant", "Неизвестный клиент"
   end
 
   private
@@ -158,9 +158,9 @@ class Oauth::TokensController < Oauth::BaseController
 
     def validate_grant_type
       if params[:grant_type].blank?
-        oauth_error "invalid_request", "Missing required parameter: grant_type"
+        oauth_error "invalid_request", "Отсутствует обязательный параметр: grant_type"
       elsif !params[:grant_type].in?(GRANT_TYPES)
-        oauth_error "unsupported_grant_type", "Only authorization_code and refresh_token grants are supported"
+        oauth_error "unsupported_grant_type", "Поддерживаются только предоставления authorization_code и refresh_token"
       end
     end
 
@@ -169,7 +169,7 @@ class Oauth::TokensController < Oauth::BaseController
     # mint, refresh or exchange a token here.
     def validate_client_grant_type
       if requesting_client && !requesting_client.allows_grant_type?(params[:grant_type])
-        oauth_error "unauthorized_client", "Client may not use the #{params[:grant_type]} grant"
+        oauth_error "unauthorized_client", "Клиент не может использовать предоставление #{params[:grant_type]}"
       end
     end
 
@@ -181,7 +181,7 @@ class Oauth::TokensController < Oauth::BaseController
     # name[] form field is just as malformed, and must not reach a lookup.
     def require_params
       if (missing = required_params.reject { |name| string_param?(name) }).any?
-        oauth_error "invalid_request", "Missing or malformed parameter: #{missing.to_sentence}"
+        oauth_error "invalid_request", "Отсутствует или некорректный параметр: #{missing.to_sentence}"
       end
     end
 
@@ -195,31 +195,31 @@ class Oauth::TokensController < Oauth::BaseController
 
     def set_auth_code
       unless @auth_code = Oauth::AuthorizationCode.parse(params[:code])
-        oauth_error "invalid_grant", "Invalid or expired authorization code"
+        oauth_error "invalid_grant", "Недействительный или истёкший код авторизации"
       end
     end
 
     def set_client
       unless @client = Oauth::Client.find_by(client_id: @auth_code.client_id)
-        oauth_error "invalid_grant", "Unknown client"
+        oauth_error "invalid_grant", "Неизвестный клиент"
       end
     end
 
     def validate_pkce
       unless Oauth::AuthorizationCode.valid_pkce?(@auth_code, params[:code_verifier])
-        oauth_error "invalid_grant", "PKCE verification failed"
+        oauth_error "invalid_grant", "Проверка PKCE не удалась"
       end
     end
 
     def validate_redirect_uri
       unless @auth_code.redirect_uri == params[:redirect_uri]
-        oauth_error "invalid_grant", "redirect_uri mismatch"
+        oauth_error "invalid_grant", "Несовпадение redirect_uri"
       end
     end
 
     def set_identity
       unless @identity = Identity.find_by(id: @auth_code.identity_id)
-        oauth_error "invalid_grant", "Identity not found"
+        oauth_error "invalid_grant", "Пользователь не найден"
       end
     end
 
@@ -231,19 +231,19 @@ class Oauth::TokensController < Oauth::BaseController
     def answer_code_replay
       if Identity::AccessToken.code_redeemed?(@auth_code)
         Identity::AccessToken.answer_code_replay(@auth_code, client: @client)
-        oauth_error "invalid_grant", "Authorization code already used"
+        oauth_error "invalid_grant", "Код авторизации уже использован"
       end
     end
 
     def require_admitted_identity
       unless Oauth::Availability.admits?(@identity)
-        oauth_error "invalid_grant", "OAuth apps are limited to 37signals staff for now"
+        oauth_error "invalid_grant", "Приложения OAuth пока доступны только сотрудникам 37signals"
       end
     end
 
     def require_admitted_grant_owner
       unless @access_token.personal? || Oauth::Availability.admits?(@access_token.identity)
-        oauth_error "invalid_grant", "OAuth apps are limited to 37signals staff for now"
+        oauth_error "invalid_grant", "Приложения OAuth пока доступны только сотрудникам 37signals"
       end
     end
 
@@ -253,7 +253,7 @@ class Oauth::TokensController < Oauth::BaseController
     # by what the token request names.
     def validate_code_resource
       unless resource_matches?(@auth_code.audience)
-        oauth_error "invalid_target", "resource does not match the authorization"
+        oauth_error "invalid_target", "Ресурс не соответствует авторизации"
       end
     end
 
@@ -263,7 +263,7 @@ class Oauth::TokensController < Oauth::BaseController
     def validate_bound_account
       if @auth_code.audience.present? || @auth_code.account_id.present?
         unless @auth_code.audience.present? && @identity.users_with_active_accounts.exists?(account_id: @auth_code.account_id)
-          oauth_error "invalid_grant", "The authorized account is no longer available"
+          oauth_error "invalid_grant", "Авторизованный аккаунт больше недоступен"
         end
       end
     end
@@ -272,7 +272,7 @@ class Oauth::TokensController < Oauth::BaseController
     # The audience is the grant's, stamped at consent, never the request's.
     def validate_refresh_resource
       unless resource_matches?(@access_token.audience)
-        oauth_error "invalid_target", "resource does not match the grant"
+        oauth_error "invalid_target", "Ресурс не соответствует предоставлению"
       end
     end
 
@@ -281,7 +281,7 @@ class Oauth::TokensController < Oauth::BaseController
     # account ends what the grant can renew.
     def validate_refresh_bound_account
       if @access_token.account_bound? && !@access_token.identity.users_with_active_accounts.exists?(account_id: @access_token.account_id)
-        oauth_error "invalid_grant", "The authorized account is no longer available"
+        oauth_error "invalid_grant", "Авторизованный аккаунт больше недоступен"
       end
     end
 
@@ -293,7 +293,7 @@ class Oauth::TokensController < Oauth::BaseController
         (@retired_refresh_token = Oauth::RetiredRefreshToken.find_by_raw_token(params[:refresh_token]))&.access_token
 
       unless @access_token
-        oauth_error "invalid_grant", "Invalid refresh token"
+        oauth_error "invalid_grant", "Недействительный токен обновления"
       end
     end
 
@@ -304,7 +304,7 @@ class Oauth::TokensController < Oauth::BaseController
     # naming a public client tells nobody whether someone else's grant is live.
     def validate_client_id
       unless oauth_client_id == (@client || @access_token.oauth_client)&.client_id
-        oauth_error "invalid_grant", authorization_code_grant? ? "Invalid or expired authorization code" : "Invalid refresh token"
+        oauth_error "invalid_grant", authorization_code_grant? ? "Недействительный или истёкший код авторизации" : "Недействительный токен обновления"
       end
     end
 
@@ -316,7 +316,7 @@ class Oauth::TokensController < Oauth::BaseController
 
     def reject_lapsed_grant
       if @access_token.lapsed?
-        oauth_error "invalid_grant", "Refresh token expired"
+        oauth_error "invalid_grant", "Срок действия токена обновления истёк"
       end
     end
 
@@ -338,7 +338,7 @@ class Oauth::TokensController < Oauth::BaseController
         # A retry within the grace window is a replay even when its scope is
         # refused here, before it reaches answer_refresh_replay.
         record_grace_replay @access_token, "scope_mismatch" if @retired_refresh_token
-        oauth_error "invalid_scope", "Requested scope exceeds the original grant"
+        oauth_error "invalid_scope", "Запрошенная область превышает исходное предоставление"
       end
     end
 
@@ -380,14 +380,14 @@ class Oauth::TokensController < Oauth::BaseController
           answer_refresh_retry grant, retired_refresh_token.successor
         elsif retired_refresh_token.within_grace?
           record_grace_replay grant, "superseded"
-          oauth_error "invalid_grant", "Refresh token superseded"
+          oauth_error "invalid_grant", "Токен обновления заменён новым"
         else
           Oauth::Audit.record "token.reuse_detected", grant: grant, actor: "client"
           grant.revoke reason: "reuse_detected", actor: "system"
-          oauth_error "invalid_grant", "Refresh token reuse detected"
+          oauth_error "invalid_grant", "Обнаружено повторное использование токена обновления"
         end
       else
-        oauth_error "invalid_grant", "Invalid refresh token"
+        oauth_error "invalid_grant", "Недействительный токен обновления"
       end
     end
 
@@ -400,14 +400,14 @@ class Oauth::TokensController < Oauth::BaseController
     def answer_refresh_retry(grant, successor)
       if @refresh_permission != grant.permission
         record_grace_replay grant, "scope_mismatch"
-        oauth_error "invalid_scope", "Requested scope differs from the rotation being retried"
+        oauth_error "invalid_scope", "Запрошенная область отличается от повторяемого обновления"
       elsif successor
         record_grace_replay grant, "answered"
         grant.assign_attributes raw_token: successor[:access_token], raw_refresh_token: successor[:refresh_token]
         render json: refresh_response(grant)
       else
         record_grace_replay grant, "successor_gone"
-        oauth_error "invalid_grant", "Refresh token no longer retryable"
+        oauth_error "invalid_grant", "Токен обновления больше нельзя повторить"
       end
     end
 

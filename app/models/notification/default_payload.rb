@@ -12,11 +12,11 @@ class Notification::DefaultPayload
   end
 
   def title
-    "New notification"
+    "Новое уведомление"
   end
 
   def body
-    "You have a new notification"
+    "У вас новое уведомление"
   end
 
   def url

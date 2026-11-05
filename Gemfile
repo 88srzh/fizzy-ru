@@ -7,7 +7,7 @@ ruby file: ".ruby-version"
 git_source(:bc) { |repo| "https://github.com/basecamp/#{repo}" }
 
 gem "rails", github: "rails/rails", branch: "main"
-
+gem "rails-i18n"
 # Assets & front end
 gem "importmap-rails"
 gem "propshaft"

@@ -19,7 +19,7 @@ class Users::EmailAddresses::ConfirmationsController < ApplicationController
     else
       respond_to do |format|
         format.html { render :invalid_token, status: :unprocessable_entity }
-        format.json { render json: { error: "Token is invalid or has expired" }, status: :unprocessable_entity }
+        format.json { render json: { error: "Токен недействителен или истёк" }, status: :unprocessable_entity }
       end
     end
   end

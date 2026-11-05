@@ -83,11 +83,11 @@ class Oauth::TokenDelegation
   # the subject, then the resource, then the scope.
   def validate!
     unless client.delegation_client?
-      raise Refusal.new("unauthorized_client", "Client not configured for token delegation")
+      raise Refusal.new("unauthorized_client", "Клиент не настроен для делегирования токенов")
     end
 
     unless client.confidential?
-      raise Refusal.new("unauthorized_client", "Token delegation requires a confidential client")
+      raise Refusal.new("unauthorized_client", "Делегирование токенов требует конфиденциального клиента")
     end
 
     @subject = Identity::AccessToken.oauth.find_by_raw_token(subject_token)
@@ -118,7 +118,7 @@ class Oauth::TokenDelegation
       # governs the token it mints.
       @client = Oauth::Client.lock.find_by(id: client.id)
       unless client&.delegation_client?
-        raise Refusal.new("unauthorized_client", "Client not configured for token delegation")
+        raise Refusal.new("unauthorized_client", "Клиент не настроен для делегирования токенов")
       end
 
       @subject = Identity::AccessToken.lock.oauth.find_by_raw_token(subject_token)
@@ -144,11 +144,11 @@ class Oauth::TokenDelegation
       if (reason = subject_refusal_reason)
         refuse_subject reason
       elsif !subject.audienced? || !client.fronts?(subject.audience)
-        raise Refusal.new("invalid_grant", "Subject token is not audienced to this client's protected resource")
+        raise Refusal.new("invalid_grant", "Токен субъекта не предназначен для защищённого ресурса этого клиента")
       elsif !subject.account_bound?
-        raise Refusal.new("invalid_grant", "Subject token is not account-bound")
+        raise Refusal.new("invalid_grant", "Токен субъекта не привязан к аккаунту")
       elsif !membership_live?
-        raise Refusal.new("invalid_grant", "Subject token's user no longer has account access")
+        raise Refusal.new("invalid_grant", "Пользователь токена субъекта больше не имеет доступа к аккаунту")
       end
     end
 
@@ -173,7 +173,7 @@ class Oauth::TokenDelegation
       Rails.logger.info "[OAuth] Token delegation subject refused: " \
         "#{{ client: client.client_id, reason: reason, access_token_id: subject&.id, identity_id: subject&.identity_id }.compact.inspect}"
 
-      raise Refusal.new("invalid_grant", "Subject token is not valid")
+      raise Refusal.new("invalid_grant", "Токен субъекта недействителен")
     end
 
     # The exchange answers out of process, so success must mean the minted
@@ -190,7 +190,7 @@ class Oauth::TokenDelegation
     # absent parameter, and anything else is refused.
     def validate_resource
       if resource.present? && !api_resource.call(resource)
-        raise Refusal.new("invalid_target", "resource does not match the subject token's account")
+        raise Refusal.new("invalid_target", "ресурс не соответствует аккаунту токена субъекта")
       end
     end
 
@@ -203,16 +203,16 @@ class Oauth::TokenDelegation
 
       requested.each do |scope|
         if !scope.in?(%w[ read write ])
-          raise Refusal.new("invalid_scope", "Unknown scope: #{scope}")
+          raise Refusal.new("invalid_scope", "Неизвестная область: #{scope}")
         elsif !client.scopes.include?(scope)
-          raise Refusal.new("invalid_scope", "Scope '#{scope}' not allowed for this client")
+          raise Refusal.new("invalid_scope", "Область '#{scope}' не разрешена для этого клиента")
         end
       end
 
       if requested.empty?
-        raise Refusal.new("invalid_scope", "Scope must include 'read' or 'write' for API access")
+        raise Refusal.new("invalid_scope", "Область должна включать 'read' или 'write' для доступа к API")
       elsif (requested - granted).any?
-        raise Refusal.new("invalid_scope", "Scope exceeds the subject token's scope")
+        raise Refusal.new("invalid_scope", "Область превышает область токена субъекта")
       end
 
       requested.include?("write") ? "write" : "read"

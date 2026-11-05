@@ -30,7 +30,7 @@ module PaginationHelper
 
   def pagination_link(namespace, page_number, activate_when_observed: false, label: default_pagination_label(activate_when_observed), url_params: {}, data: {}, **attributes)
     link_to label, url_for(forwardable_request_params.merge(page: page_number, **url_params)),
-      "aria-label": "Load page #{page_number}",
+      "aria-label": "Загрузить страницу #{page_number}",
       id: "#{namespace}-pagination-link-#{page_number}",
       class: class_names(attributes.delete(:class), "pagination-link", { "pagination-link--active-when-observed" => activate_when_observed }),
       data: {
@@ -79,7 +79,7 @@ module PaginationHelper
 
   def day_timeline_pagination_link(day_timeline, filter)
     if day_timeline.next_day
-      link_to "Load more…", events_days_path(day: day_timeline.next_day.strftime("%Y-%m-%d"), **filter.as_params),
+      link_to "Загрузить ещё…", events_days_path(day: day_timeline.next_day.strftime("%Y-%m-%d"), **filter.as_params),
         class: "day-timeline-pagination-link", data: { frame: day_timeline_pagination_frame_id_for(day_timeline.next_day), pagination_target: "paginationLink" }
     end
   end
@@ -100,6 +100,6 @@ module PaginationHelper
     end
 
     def default_pagination_label(activate_when_observed)
-      "Load more…"
+      "Загрузить ещё…"
     end
 end

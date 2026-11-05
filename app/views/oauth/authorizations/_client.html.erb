@@ -8,21 +8,21 @@
 
   <% if client.dynamically_registered? %>
     <p class="oauth-client__self-name txt-small txt-subtle margin-none">
-      Says it&rsquo;s &ldquo;<bdi><%= oauth_client_self_name(client) %></bdi>&rdquo;
+      Утверждает, что это &ldquo;<bdi><%= oauth_client_self_name(client) %></bdi>&rdquo;
     </p>
 
     <p class="oauth-client__warning txt-small margin-none" role="note">
       <% if redirect_host %>
-        <strong>We haven&rsquo;t checked this app.</strong> Anyone can run an app at any address, so only authorize it if you trust <strong><%= redirect_host %></strong>.
+        <strong>Мы не проверяли это приложение.</strong> Запустить приложение может кто угодно по любому адресу, поэтому авторизуйте его, только если доверяете <strong><%= redirect_host %></strong>.
       <% else %>
-        <strong>We haven&rsquo;t checked this app.</strong> It runs on your device and will get this access, so only authorize it if you started it.
+        <strong>Мы не проверяли это приложение.</strong> Оно работает на вашем устройстве и получит этот доступ, поэтому авторизуйте его, только если запустили его вы.
       <% end %>
     </p>
   <% elsif client.metadata_document? %>
     <p class="oauth-client__self-name txt-small txt-subtle margin-none">
-      Name set by the app at <strong><%= URI.parse(client.client_id).host %></strong>
+      Название задано приложением на <strong><%= URI.parse(client.client_id).host %></strong>
     </p>
   <% elsif client.trusted? %>
-    <p class="oauth-client__made-by txt-small txt-subtle margin-none">Made by 37signals</p>
+    <p class="oauth-client__made-by txt-small txt-subtle margin-none">Создано 37signals</p>
   <% end %>
 </header>

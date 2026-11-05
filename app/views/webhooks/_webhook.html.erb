@@ -2,15 +2,15 @@
   <%= link_to webhook, class: "txt-ink flex gap-half align-center min-width txt-medium" do %>
     <strong class="overflow-ellipsis"><%= webhook.name %></strong>
     <% if webhook.created_via_id? %>
-      <span class="txt-small txt-subtle flex-item-no-shrink">via <%= webhook_app_name(webhook) %></span>
+      <span class="txt-small txt-subtle flex-item-no-shrink">через <%= webhook_app_name(webhook) %></span>
     <% end %>
   <% end %>
 
   <hr class="separator--horizontal flex-item-grow" style="--border-color: var(--color-ink-medium); --border-style: dashed" aria-hidden="true">
 
   <%= button_to webhook, method: :delete, class: "btn btn--circle btn--negative txt-xx-small flex-item-no-shrink",
-        data: { turbo_confirm: "Are you sure you want to permanently remove this webhook?" } do %>
+        data: { turbo_confirm: "Вы уверены, что хотите навсегда удалить этот вебхук?" } do %>
     <%= icon_tag "minus" %>
-    <span class="for-screen-reader">Remove <%= webhook.name %></span>
+    <span class="for-screen-reader">Удалить <%= webhook.name %></span>
   <% end %>
 </li>

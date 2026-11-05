@@ -2,7 +2,7 @@ class Notification::MentionPayload < Notification::DefaultPayload
   include ExcerptHelper
 
   def title
-    "#{mention.mentioner.first_name} mentioned you"
+    "#{mention.mentioner.first_name} упомянул(а) вас"
   end
 
   def body

@@ -52,7 +52,7 @@ class Oauth::AuthorizationsController < Oauth::BaseController
   def create
     if denial?
       record_consent "denied"
-      redirect_to error_redirect_uri("access_denied", "User denied the request"), allow_other_host: true
+      redirect_to error_redirect_uri("access_denied", "Пользователь отклонил запрос"), allow_other_host: true
     # Consent is use, so it restarts a self-registered client's retention
     # period: the sweep (Oauth::Client.cleanup) mustn't remove the client while
     # the code it is about to receive is still redeemable. A touch that finds no
@@ -71,7 +71,7 @@ class Oauth::AuthorizationsController < Oauth::BaseController
       Oauth::Audit.record "code.issued", client: @client, identity_id: Current.identity.id, actor: "user"
       redirect_to success_redirect_uri(code), allow_other_host: true
     else
-      render_error "invalid_request", "Unknown client"
+      render_error "invalid_request", "Неизвестный клиент"
     end
   end
 
@@ -90,7 +90,7 @@ class Oauth::AuthorizationsController < Oauth::BaseController
       unless Oauth::Availability.admits?(Current.identity)
         respond_to do |format|
           format.html { render :staff_only, status: :forbidden }
-          format.json { render_oauth_error "access_denied", "OAuth apps are limited to 37signals staff for now", status: :forbidden }
+          format.json { render_oauth_error "access_denied", "Приложения OAuth пока доступны только сотрудникам 37signals", status: :forbidden }
         end
       end
     end
@@ -120,9 +120,9 @@ class Oauth::AuthorizationsController < Oauth::BaseController
       unless performed?
         # There's no client to send the browser back to, so the person is told here.
         if @client.nil?
-          render_error "invalid_request", "Unknown client"
+          render_error "invalid_request", "Неизвестный клиент"
         elsif !@client.allows_grant_type?("authorization_code")
-          oauth_error "unauthorized_client", "Client may not use the authorization code grant"
+          oauth_error "unauthorized_client", "Клиент не может использовать предоставление по коду авторизации"
         end
       end
     end
@@ -176,33 +176,33 @@ class Oauth::AuthorizationsController < Oauth::BaseController
 
     def validate_redirect_uri
       unless performed? || @client.allows_redirect?(params[:redirect_uri])
-        redirect_with_error "invalid_request", "Invalid redirect_uri"
+        redirect_with_error "invalid_request", "Недействительный redirect_uri"
       end
     end
 
     def validate_response_type
       unless performed? || params[:response_type] == "code"
-        redirect_with_error "unsupported_response_type", "Only 'code' response_type is supported"
+        redirect_with_error "unsupported_response_type", "Поддерживается только response_type 'code'"
       end
     end
 
     def validate_pkce
       unless performed? || params[:code_challenge].present?
-        redirect_with_error "invalid_request", "code_challenge is required"
+        redirect_with_error "invalid_request", "code_challenge обязателен"
       end
 
       unless performed? || params[:code_challenge].is_a?(String) && params[:code_challenge].match?(S256_CODE_CHALLENGE)
-        redirect_with_error "invalid_request", "code_challenge must be an S256 challenge"
+        redirect_with_error "invalid_request", "code_challenge должен быть S256-запросом"
       end
 
       unless performed? || params[:code_challenge_method] == "S256"
-        redirect_with_error "invalid_request", "code_challenge_method must be S256"
+        redirect_with_error "invalid_request", "code_challenge_method должен быть S256"
       end
     end
 
     def validate_scope
       unless performed? || @client.allows_scope?(params[:scope].presence || "read")
-        redirect_with_error "invalid_scope", "Requested scope is not allowed"
+        redirect_with_error "invalid_scope", "Запрошенная область не разрешена"
       end
     end
 
@@ -212,7 +212,7 @@ class Oauth::AuthorizationsController < Oauth::BaseController
     # carried through the consent form and into the redirect.
     def validate_state
       unless performed? || valid_state?
-        redirect_with_error "invalid_request", "state must be a string of at most #{STATE_MAXIMUM_LENGTH} characters"
+        redirect_with_error "invalid_request", "state должен быть строкой длиной не более #{STATE_MAXIMUM_LENGTH} символов"
       end
     end
 
@@ -222,11 +222,11 @@ class Oauth::AuthorizationsController < Oauth::BaseController
     def set_audience
       unless performed?
         if !single_resource?
-          redirect_with_error "invalid_target", "Only one resource indicator is supported"
+          redirect_with_error "invalid_target", "Поддерживается только один указатель ресурса"
         elsif Oauth.mcp_resource?(resource_param)
           @audience = resource_param
         elsif !resource_param.nil? && resource_param != "" && !service_resource?(resource_param)
-          redirect_with_error "invalid_target", "Unknown resource"
+          redirect_with_error "invalid_target", "Неизвестный ресурс"
         end
       end
     end
@@ -242,7 +242,7 @@ class Oauth::AuthorizationsController < Oauth::BaseController
         @accounts = Current.identity.users_with_active_accounts.map(&:account).sort_by { |account| account.name.to_s.downcase }
 
         if @accounts.empty?
-          redirect_with_error "access_denied", "You have no account to connect"
+          redirect_with_error "access_denied", "У вас нет аккаунта для подключения"
         end
       end
     end
@@ -252,7 +252,7 @@ class Oauth::AuthorizationsController < Oauth::BaseController
         @account = @accounts.find { |account| account.id == params[:account_id] }
 
         unless @account
-          render_error "invalid_request", "Choose an account to connect"
+          render_error "invalid_request", "Выберите аккаунт для подключения"
         end
       end
     end

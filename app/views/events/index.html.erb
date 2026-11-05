@@ -1,4 +1,4 @@
-<% @page_title = "Home" %>
+<% @page_title = "Главная" %>
 <% @header_class = "header--events" %>
 
 <%= render "cards/broadcasts", filter: @filter %>
@@ -8,9 +8,9 @@
 
   <h1 class="header__title" data-controller="dialog-manager" data-bridge--title-target="header">
     <% if @user_filtering.boards.many? %>
-      <span>Activity <%= @user_filtering.filter.boards.any? ? "in" : "across" %></span>
+      <span>Активность <%= @user_filtering.filter.boards.any? ? "в" : "по всем" %></span>
     <% else %>
-      <span>Latest Activity</span>
+      <span>Последняя активность</span>
     <% end %>
 
     <%= render "events/index/filter", user_filtering: @user_filtering %>

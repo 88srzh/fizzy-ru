@@ -15,7 +15,7 @@ class Account::ImportsController < ApplicationController
     if signup.complete
       start_import(signup.account)
     else
-      render :new, alert: "Couldn't create account."
+      render :new, alert: "Не удалось создать аккаунт."
     end
   end
 

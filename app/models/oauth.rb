@@ -36,7 +36,7 @@ module Oauth
     # A percent-encoding that decodes to invalid UTF-8 is not a usable host.
     # Surface it as an invalid URI so every caller — all of which already
     # rescue URI::InvalidURIError — rejects it instead of raising a 500.
-    raise URI::InvalidURIError, "invalid percent-encoding in host"
+    raise URI::InvalidURIError, "недопустимое percent-кодирование в хосте"
   end
 
   # A host made of letters, digits, hyphens and dots, or a bracketed IPv6

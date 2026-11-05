@@ -66,7 +66,7 @@ class Oauth::TokenExchangesController < Oauth::BaseController
     # heard of the grant, which is what its metadata says.
     def require_delegation_enabled
       unless Oauth::TokenDelegation.enabled?
-        oauth_error "unsupported_grant_type", "Only authorization_code and refresh_token grants are supported"
+        oauth_error "unsupported_grant_type", "Поддерживаются только предоставления authorization_code и refresh_token"
       end
     end
 
@@ -76,7 +76,7 @@ class Oauth::TokenExchangesController < Oauth::BaseController
     # to the one encoding its one client sends.
     def require_form_body
       unless request.media_type == "application/x-www-form-urlencoded"
-        oauth_error "invalid_request", "Token exchange requests must be application/x-www-form-urlencoded"
+        oauth_error "invalid_request", "Запросы обмена токенов должны быть в формате application/x-www-form-urlencoded"
       end
     end
 
@@ -95,17 +95,17 @@ class Oauth::TokenExchangesController < Oauth::BaseController
     # access log's copy of the URL.
     def require_params
       if request.query_parameters.key?("subject_token")
-        oauth_error "invalid_request", "subject_token must be sent in the request body"
+        oauth_error "invalid_request", "subject_token должен передаваться в теле запроса"
       elsif !string_param?(:subject_token)
-        oauth_error "invalid_request", "subject_token required"
+        oauth_error "invalid_request", "subject_token обязателен"
       elsif !string_param?(:subject_token_type)
-        oauth_error "invalid_request", "subject_token_type required"
+        oauth_error "invalid_request", "subject_token_type обязателен"
       elsif params[:subject_token_type] != Oauth::TokenDelegation::ACCESS_TOKEN_TYPE
-        oauth_error "invalid_request", "Only access_token subject_token_type supported"
+        oauth_error "invalid_request", "Поддерживается только subject_token_type access_token"
       elsif params.key?(:requested_token_type) && params[:requested_token_type] != Oauth::TokenDelegation::ACCESS_TOKEN_TYPE
-        oauth_error "invalid_request", "Only access_token requested_token_type supported"
+        oauth_error "invalid_request", "Поддерживается только requested_token_type access_token"
       elsif !single_resource?
-        oauth_error "invalid_target", "Only one resource may be named"
+        oauth_error "invalid_target", "Можно указать только один ресурс"
       end
     end
 

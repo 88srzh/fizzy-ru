@@ -2,7 +2,7 @@
 <% redirect_host = oauth_redirect_host(@redirect_uri) %>
 <%# A self-registered web app is headed by where its access goes, as bc3's
     consent reads: "Authorize the app at <host>". %>
-<% @page_title = "Authorize #{@client.dynamically_registered? && redirect_host ? "the app at #{redirect_host}" : identity}" %>
+<% @page_title = "Авторизовать #{@client.dynamically_registered? && redirect_host ? "приложение на #{redirect_host}" : identity}" %>
 
 <% content_for :header do %>
   <h1 class="header__title"><%= @page_title %></h1>
@@ -13,8 +13,8 @@
 
   <%# Not you? signs out and returns whoever signs in to this same request %>
   <div class="oauth-consent__identity flex align-center gap-half txt-small txt-subtle">
-    <span>Signed in as <strong><%= Current.identity.email_address %></strong></span>
-    <%= button_to "Not you?", oauth_authorization_switch_path,
+    <span>Вы вошли как <strong><%= Current.identity.email_address %></strong></span>
+    <%= button_to "Не вы?", oauth_authorization_switch_path,
           params: { client_id: @client.client_id, redirect_uri: @redirect_uri, response_type: "code", scope: @scope,
             state: @state, code_challenge: @code_challenge, code_challenge_method: "S256", resource: @resource }.compact,
           class: "btn btn--plain txt-link txt-small", form: { data: { turbo: false } } %>
@@ -38,20 +38,20 @@
 
     <p class="oauth-consent__destination txt-small txt-subtle margin-none">
       <% if redirect_host %>
-        Either way, you'll go back to <strong><%= redirect_host %></strong>.
+        В любом случае вы вернётесь на <strong><%= redirect_host %></strong>.
       <% else %>
-        Either way, you'll go back to the app on your device.
+        В любом случае вы вернётесь в приложение на вашем устройстве.
       <% end %>
-      You can disconnect it at any time in <%= link_to "Connected apps", my_connected_apps_path, class: "txt-link" %>.
+      Вы можете отключить его в любой момент в разделе <%= link_to "Подключённые приложения", my_connected_apps_path, class: "txt-link" %>.
     </p>
 
     <div class="oauth-consent__actions flex gap">
       <%= f.button type: :submit, class: "btn btn--link txt-medium" do %>
-        <span>Authorize</span>
+        <span>Авторизовать</span>
       <% end %>
 
       <%= f.button type: :submit, name: :error, value: "access_denied", class: "btn btn--outline txt-medium" do %>
-        <span>Deny</span>
+        <span>Отклонить</span>
       <% end %>
     </div>
   <% end %>

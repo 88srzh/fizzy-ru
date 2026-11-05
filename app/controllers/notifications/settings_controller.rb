@@ -11,7 +11,7 @@ class Notifications::SettingsController < ApplicationController
     @settings.update!(settings_params)
 
     respond_to do |format|
-      format.html { redirect_to notifications_settings_path, notice: "Settings updated" }
+      format.html { redirect_to notifications_settings_path, notice: "Настройки обновлены" }
       format.json { head :no_content }
     end
   end

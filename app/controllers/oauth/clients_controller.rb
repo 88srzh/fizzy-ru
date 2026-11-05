@@ -46,9 +46,9 @@ class Oauth::ClientsController < Oauth::BaseController
     def validate_redirect_uris
       unless performed?
         if params[:redirect_uris].blank?
-          oauth_error "invalid_client_metadata", "redirect_uris is required"
+          oauth_error "invalid_client_metadata", "redirect_uris обязателен"
         elsif !bounded_redirect_uris?(params[:redirect_uris])
-          oauth_error "invalid_client_metadata", "redirect_uris may list at most #{Oauth::Client::MAXIMUM_REDIRECT_URIS} URIs of at most #{Oauth::Client::MAXIMUM_REDIRECT_URI_LENGTH} characters each"
+          oauth_error "invalid_client_metadata", "redirect_uris может содержать не более #{Oauth::Client::MAXIMUM_REDIRECT_URIS} URI длиной не более #{Oauth::Client::MAXIMUM_REDIRECT_URI_LENGTH} символов каждый"
         end
       end
     end
@@ -67,7 +67,7 @@ class Oauth::ClientsController < Oauth::BaseController
 
     def validate_auth_method
       unless performed? || registered_auth_method.in?(Oauth::Client::AUTH_METHODS)
-        oauth_error "invalid_client_metadata", "token_endpoint_auth_method must be one of #{Oauth::Client::AUTH_METHODS.join(", ")}"
+        oauth_error "invalid_client_metadata", "token_endpoint_auth_method должен быть одним из #{Oauth::Client::AUTH_METHODS.join(", ")}"
       end
     end
 
@@ -91,9 +91,9 @@ class Oauth::ClientsController < Oauth::BaseController
       schemes = Oauth::DCR_CUSTOM_SCHEMES.map { |scheme| "#{scheme}://" }.join(" or ")
       hosts = Oauth.dcr_allowed_https_hosts
 
-      "Dynamic registration accepts local loopback redirect URIs (http://127.0.0.1, http://[::1] or http://localhost), " \
-        "#{schemes} app redirects, " \
-        "#{hosts.any? ? "and https redirects on #{hosts.join(", ")}" : "and no https redirects on this server"}"
+      "Динамическая регистрация принимает локальные loopback redirect URI (http://127.0.0.1, http://[::1] или http://localhost), " \
+        "#{schemes} перенаправления приложений, " \
+        "#{hosts.any? ? "и https-перенаправления на #{hosts.join(", ")}" : "и никаких https-перенаправлений на этом сервере"}"
     end
 
     def registered_client_name

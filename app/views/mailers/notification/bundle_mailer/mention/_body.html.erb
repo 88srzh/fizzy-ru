@@ -1,7 +1,7 @@
 <% mention = notification.source %>
 
 <strong class="notificaton__mention">
-  <%= "#{mention.mentioner.first_name} mentioned you:" %>
+  <%= "#{mention.mentioner.first_name} упомянул вас:" %>
 </strong>
 <p class="notification__details">
   <%= mention.source.mentionable_content.truncate(250) %>

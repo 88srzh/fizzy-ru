@@ -103,7 +103,7 @@ class Oauth::ClientMetadata::Resolver
           refund_fetch_budget
           overloaded
         elsif result.failure?
-          Resolution.failure(:fetch_failed, "Could not retrieve the client metadata document (#{result.outcome.to_s.humanize.downcase})")
+          Resolution.failure(:fetch_failed, "Не удалось получить документ метаданных клиента (#{result.outcome.to_s.humanize.downcase})")
         else
           yield result
         end
@@ -271,19 +271,19 @@ class Oauth::ClientMetadata::Resolver
       if row
         Resolution.success(row)
       else
-        Resolution.failure(:throttled, "Metadata fetch attempts are temporarily limited for this client")
+        Resolution.failure(:throttled, "Попытки получения метаданных временно ограничены для этого клиента")
       end
     end
 
     def unknown_client(outcome)
-      Resolution.failure(outcome, "Unknown client")
+      Resolution.failure(outcome, "Неизвестный клиент")
     end
 
     def invalid_document
-      Resolution.failure(:invalid_document, @document_error || "Client metadata document is invalid")
+      Resolution.failure(:invalid_document, @document_error || "Документ метаданных клиента недействителен")
     end
 
     def overloaded
-      Resolution.failure(:overloaded, "The authorization server is briefly over capacity")
+      Resolution.failure(:overloaded, "Сервер авторизации временно перегружен")
     end
 end

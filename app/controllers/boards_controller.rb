@@ -47,9 +47,9 @@ class BoardsController < ApplicationController
     respond_to do |format|
       format.html do
         if @board.accessible_to?(Current.user)
-          redirect_to edit_board_path(@board), notice: "Saved"
+          redirect_to edit_board_path(@board), notice: "Сохранено"
         else
-          redirect_to root_path, notice: "Saved (you were removed from the board)"
+          redirect_to root_path, notice: "Сохранено (вы удалены из доски)"
         end
       end
       format.json do

@@ -81,12 +81,12 @@ module TokenDigester
     def configured_pepper(value, required:)
       if value.present?
         if value.length < MINIMUM_PEPPER_LENGTH
-          raise MissingPepper, "OAUTH_TOKEN_PEPPER must be at least #{MINIMUM_PEPPER_LENGTH} characters; generate one with bin/rails secret"
+          raise MissingPepper, "OAUTH_TOKEN_PEPPER должен быть не короче #{MINIMUM_PEPPER_LENGTH} символов; сгенерируйте с помощью bin/rails secret"
         else
           value
         end
       elsif required
-        raise MissingPepper, "OAUTH_TOKEN_PEPPER is required in this environment. Refusing to fall back to a key derived from secret_key_base, which would digest under a different key than every token already stored"
+        raise MissingPepper, "OAUTH_TOKEN_PEPPER обязателен в этом окружении. Отказываемся откатываться к ключу, выведенному из secret_key_base, который дайджестил бы под другим ключом, чем уже сохранённые токены"
       else
         Rails.application.key_generator.generate_key("token_digest_pepper", 32)
       end

@@ -1,10 +1,10 @@
-<% @page_title = "Generate a personal access token" %>
+<% @page_title = "Создать персональный токен доступа" %>
 <%# Never snapshotted: once the form gives way to the revealed token, Back must fetch a fresh form, not restore a page holding neither. %>
 <% turbo_exempts_page_from_cache %>
 
 <% content_for :header do %>
   <div class="header__actions header__actions--start">
-    <%= back_link_to "tokens", my_access_tokens_path, "keydown.left@document->hotkey#click keydown.esc@document->hotkey#click" %>
+    <%= back_link_to "токены", my_access_tokens_path, "keydown.left@document->hotkey#click keydown.esc@document->hotkey#click" %>
   </div>
 
   <h1 class="header__title" data-bridge--title-target="header"><%= @page_title %></h1>
@@ -13,19 +13,19 @@
 <article id="new_access_token" class="panel panel--wide shadow center txt-align-start" style="view-transition-name: <%= dom_id(@access_token) %>">
   <%= form_with model: @access_token, url: my_access_tokens_path, scope: :access_token, data: { controller: "form" }, html: { class: "flex flex-column gap" } do |form| %>
     <div class="flex flex-column gap-half">
-      <strong><%= form.label :description, "Access token description" %></strong>
-      <%= form.text_field :description, required: true, autofocus: true, class: "input", placeholder: "e.g. Github", data: { action: "keydown.esc@document->form#cancel" } %>
+      <strong><%= form.label :description, "Описание токена доступа" %></strong>
+      <%= form.text_field :description, required: true, autofocus: true, class: "input", placeholder: "напр. Github", data: { action: "keydown.esc@document->form#cancel" } %>
     </div>
 
     <div class="flex flex-column gap-half">
       <strong><%= form.label :permission %></strong>
-      <%= form.select :permission, options_for_select({ "Read" => "read", "Read + Write" => "write"}), {}, class: "input input--select" %>
+      <%= form.select :permission, options_for_select({ "Чтение" => "read", "Чтение + Запись" => "write"}), {}, class: "input input--select" %>
     </div>
 
     <%= form.button type: :submit, class: "btn btn--link center txt-medium" do %>
-      <span>Generate access token</span>
+      <span>Создать токен доступа</span>
     <% end %>
 
-     <%= link_to "Cancel and go back", my_access_tokens_path, data: { form_target: "cancel" }, hidden: true %>
+     <%= link_to "Отмена и назад", my_access_tokens_path, data: { form_target: "cancel" }, hidden: true %>
   <% end %>
 </article>

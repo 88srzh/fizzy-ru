@@ -43,7 +43,7 @@ module Oauth::FirstPartyClients
   # The issuer of personal access tokens (Oauth::Client.personal_access_issuer).
   # It is listed for no grant type, so nothing but My::AccessTokensController
   # mints its tokens.
-  PERSONAL_ACCESS = { name: "Personal Access Tokens", trusted: true, scopes: %w[ read write ] }.freeze
+  PERSONAL_ACCESS = { name: "Персональные токены доступа", trusted: true, scopes: %w[ read write ] }.freeze
 
   # The MCP servers 37signals hosts, by the resource each fronts, with the
   # client its deployment exchanges tokens through (FIZZY_MCP_EXCHANGE_CLIENT_ID).

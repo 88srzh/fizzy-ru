@@ -3,7 +3,7 @@ module EntropyHelper
     {
       daysBeforeReminder: card.entropy.days_before_reminder,
       closesAt: card.entropy.auto_clean_at.iso8601,
-      action: "Closes"
+      action: "Закрывается"
     }
   end
 
@@ -13,7 +13,7 @@ module EntropyHelper
         stalledAfterDays: card.entropy.days_before_reminder,
         lastActivitySpikeAt: card.last_activity_spike_at.iso8601,
         updatedAt: card.updated_at.iso8601,
-        action: "Stalled"
+        action: "Застряла"
       }
     end
   end

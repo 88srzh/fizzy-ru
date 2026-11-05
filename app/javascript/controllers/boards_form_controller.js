@@ -3,7 +3,7 @@ import { nextEventLoopTick } from "helpers/timing_helpers";
 
 export default class extends Controller {
   static targets = ["meCheckbox"]
-  static values = { selfRemovalPromptMessage: { type: String, default: "Are you sure?" } }
+  static values = { selfRemovalPromptMessage: { type: String, default: "Вы уверены?" } }
 
   async submitWithWarning(event) {
     if (this.hasMeCheckboxTarget && !this.meCheckboxTarget.checked && !this.confirmed) {

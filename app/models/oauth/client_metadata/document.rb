@@ -43,16 +43,16 @@ class Oauth::ClientMetadata::Document
       # them into a string tagged UTF-8, which then breaks the consent render or
       # fails at the database as a 500.
       if !body.dup.force_encoding(Encoding::UTF_8).valid_encoding?
-        @error_description = "metadata document is not valid UTF-8"
+        @error_description = "метаданные документа не являются корректным UTF-8"
         nil
       elsif (parsed = JSON.parse(body)).is_a?(Hash)
         parsed
       else
-        @error_description = "metadata document must be a JSON object"
+        @error_description = "метаданные документа должны быть объектом JSON"
         nil
       end
     rescue JSON::ParserError
-      @error_description = "metadata document is not valid JSON"
+      @error_description = "метаданные документа не являются корректным JSON"
       nil
     end
 
@@ -74,7 +74,7 @@ class Oauth::ClientMetadata::Document
     # else's document.
     def validate_client_id_member
       unless @members["client_id"] == client_id
-        invalid "client_id in the metadata document must exactly equal the document URL"
+        invalid "client_id в метаданных документа должен точно совпадать с URL документа"
       end
     end
 
@@ -82,7 +82,7 @@ class Oauth::ClientMetadata::Document
     # written for some other protocol: refused, not ignored.
     def validate_no_symmetric_secrets
       if @members.keys.any? { |key| key.start_with?("client_secret") }
-        invalid "metadata documents must not contain client_secret fields"
+        invalid "метаданные документа не должны содержать поля client_secret"
       end
     end
 
@@ -96,13 +96,13 @@ class Oauth::ClientMetadata::Document
 
       if @members.key?("token_endpoint_auth_methods_supported") && \
           (!supported.is_a?(Array) || supported.empty? || !supported.all? { |method| method.is_a?(String) })
-        invalid "token_endpoint_auth_methods_supported must be a non-empty array of strings"
+        invalid "token_endpoint_auth_methods_supported должен быть непустым массивом строк"
       elsif @members.key?("token_endpoint_auth_method") && !preferred.is_a?(String)
-        invalid "token_endpoint_auth_method must be a string"
+        invalid "token_endpoint_auth_method должен быть строкой"
       elsif supported && preferred && !supported.include?(preferred)
-        invalid "token_endpoint_auth_method must be one of token_endpoint_auth_methods_supported"
+        invalid "token_endpoint_auth_method должен быть одним из token_endpoint_auth_methods_supported"
       elsif !offered_auth_methods.include?("none")
-        invalid "token_endpoint_auth_method must be none for metadata document clients"
+        invalid "token_endpoint_auth_method должен быть none для клиентов с метаданными документа"
       end
     end
 
@@ -120,9 +120,9 @@ class Oauth::ClientMetadata::Document
         claimed = @members["grant_types"]
 
         if !claimed.is_a?(Array) || !claimed.all? { |grant_type| grant_type.is_a?(String) }
-          invalid "grant_types must be an array of strings"
+          invalid "grant_types должен быть массивом строк"
         elsif !claimed.include?("authorization_code")
-          invalid "grant_types must include authorization_code"
+          invalid "grant_types должен включать authorization_code"
         end
       end
     end
@@ -133,9 +133,9 @@ class Oauth::ClientMetadata::Document
       uris = @members["redirect_uris"]
 
       if !uris.is_a?(Array) || uris.empty? || !uris.all? { |uri| uri.is_a?(String) }
-        invalid "redirect_uris must be a non-empty array of strings"
+        invalid "redirect_uris должен быть непустым массивом строк"
       elsif uris.size > Oauth::Client::MAXIMUM_REDIRECT_URIS
-        invalid "redirect_uris may list at most #{Oauth::Client::MAXIMUM_REDIRECT_URIS} URIs"
+        invalid "redirect_uris может содержать не более #{Oauth::Client::MAXIMUM_REDIRECT_URIS} URI"
       end
     end
 
@@ -146,9 +146,9 @@ class Oauth::ClientMetadata::Document
         scope = @members["scope"]
 
         if !scope.is_a?(String)
-          invalid "scope must be a string"
+          invalid "scope должен быть строкой"
         elsif (scope.split & DEFAULT_SCOPES).empty?
-          invalid "scope must include read or write"
+          invalid "scope должен включать read или write"
         end
       end
     end

@@ -15,15 +15,15 @@ class Sessions::PasskeysController < ApplicationController
       end
     else
       respond_to do |format|
-        format.html { redirect_to new_session_path, alert: "That passkey didn't work. Try again." }
-        format.json { render json: { message: "That passkey didn't work. Try again." }, status: :unauthorized }
+        format.html { redirect_to new_session_path, alert: "Этот ключ доступа не сработал. Попробуйте ещё раз." }
+        format.json { render json: { message: "Этот ключ доступа не сработал. Попробуйте ещё раз." }, status: :unauthorized }
       end
     end
   end
 
   private
     def rate_limit_exceeded
-      rate_limit_exceeded_message = "Try again later."
+      rate_limit_exceeded_message = "Попробуйте позже."
 
       respond_to do |format|
         format.html { redirect_to new_session_path, alert: rate_limit_exceeded_message }

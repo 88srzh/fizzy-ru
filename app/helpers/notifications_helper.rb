@@ -10,17 +10,17 @@ module NotificationsHelper
     creator = event.creator.name
 
     case event_notification_action(event)
-    when "card_assigned" then "Assigned to #{event.assignees.none? ? "self" : event.assignees.pluck(:name).to_sentence}"
-    when "card_unassigned" then "Unassigned by #{creator}"
-    when "card_published" then "Added by #{creator}"
-    when "card_closed" then "Moved to Done by #{creator}"
-    when "card_reopened" then "Reopened by #{creator}"
-    when "card_postponed" then "Moved to Not Now by #{creator}"
-    when "card_auto_postponed" then "Moved to Not Now due to inactivity"
-    when "card_title_changed" then "Renamed by #{creator}"
-    when "card_board_changed" then "Moved by #{creator}"
-    when "card_triaged" then "Moved to #{event.particulars.dig("particulars", "column")} by #{creator}"
-    when "card_sent_back_to_triage" then "Moved back to Maybe? by #{creator}"
+    when "card_assigned" then "Назначено: #{event.assignees.none? ? "себе" : event.assignees.pluck(:name).to_sentence}"
+    when "card_unassigned" then "Снято назначение: #{creator}"
+    when "card_published" then "Добавлено: #{creator}"
+    when "card_closed" then "Перемещено в «Готово»: #{creator}"
+    when "card_reopened" then "Вновь открыто: #{creator}"
+    when "card_postponed" then "Перемещено в «Не сейчас»: #{creator}"
+    when "card_auto_postponed" then "Перемещено в «Не сейчас» из-за неактивности"
+    when "card_title_changed" then "Переименовано: #{creator}"
+    when "card_board_changed" then "Перемещено: #{creator}"
+    when "card_triaged" then "Перемещено в #{event.particulars.dig("particulars", "column")}: #{creator}"
+    when "card_sent_back_to_triage" then "Возвращено в «Возможно?»: #{creator}"
     when "comment_created" then comment_notification_body(event)
     else creator
     end
@@ -44,7 +44,7 @@ module NotificationsHelper
       button_to url,
           method: :delete,
           class: "card__notification-unread-indicator btn btn--circle borderless",
-          title: "Mark as unread",
+          title: "Отметить как непрочитанное",
           data: { action: "form#submit:stop badge#update:stop", form_target: "submit" },
           form: { data: { controller: "form" } } do
         concat(icon_tag("unseen"))
@@ -52,7 +52,7 @@ module NotificationsHelper
     else
       button_to url,
           class: "card__notification-unread-indicator btn btn--circle borderless",
-          title: "Mark as read",
+          title: "Отметить как прочитанное",
           data: { action: "form#submit:stop badge#update:stop", form_target: "submit" },
           form: { data: { controller: "form" } } do
         concat(icon_tag("remove"))
@@ -69,10 +69,10 @@ module NotificationsHelper
 
   def bundle_email_frequency_options_for(settings)
     options_for_select([
-      [ "Never", "never" ],
-      [ "Every few hours", "every_few_hours" ],
-      [ "Every day", "daily" ],
-      [ "Every week", "weekly" ]
+      [ "Никогда", "never" ],
+      [ "Каждые несколько часов", "every_few_hours" ],
+      [ "Каждый день", "daily" ],
+      [ "Каждую неделю", "weekly" ]
     ], settings.bundle_email_frequency)
   end
 
@@ -91,6 +91,6 @@ module NotificationsHelper
     end
 
     def card_notification_title(card)
-      card.title.presence || "Card #{card.number}"
+      card.title.presence || "Карточка #{card.number}"
     end
 end

@@ -15,39 +15,39 @@ class Notification::EventPayload < Notification::DefaultPayload
     when "comment_created"
       format_excerpt(event.eventable.body, length: 200)
     when "card_assigned"
-      "Assigned to you by #{event.creator.name}"
+      "Назначено вам пользователем #{event.creator.name}"
     when "card_published"
-      "Added by #{event.creator.name}"
+      "Добавлено пользователем #{event.creator.name}"
     when "card_closed"
-      card.closure ? "Moved to Done by #{event.creator.name}" : "Closed by #{event.creator.name}"
+      card.closure ? "Перемещено в «Готово» пользователем #{event.creator.name}" : "Закрыто пользователем #{event.creator.name}"
     when "card_reopened"
-      "Reopened by #{event.creator.name}"
+      "Вновь открыто пользователем #{event.creator.name}"
     when "card_triaged"
       if column_name.present?
-        "Moved to #{column_name} by #{event.creator.name}"
+        "Перемещено в «#{column_name}» пользователем #{event.creator.name}"
       else
-        "Moved by #{event.creator.name}"
+        "Перемещено пользователем #{event.creator.name}"
       end
     when "card_sent_back_to_triage"
-      "Moved back to Maybe? by #{event.creator.name}"
+      "Возвращено в «Возможно?» пользователем #{event.creator.name}"
     when "card_board_changed", "card_collection_changed"
       if new_location_name.present?
-        "Moved to #{new_location_name} by #{event.creator.name}"
+        "Перемещено в «#{new_location_name}» пользователем #{event.creator.name}"
       else
-        "Moved by #{event.creator.name}"
+        "Перемещено пользователем #{event.creator.name}"
       end
     when "card_title_changed"
       if new_title.present?
-        "Renamed to #{new_title} by #{event.creator.name}"
+        "Переименовано в «#{new_title}» пользователем #{event.creator.name}"
       else
-        "Renamed by #{event.creator.name}"
+        "Переименовано пользователем #{event.creator.name}"
       end
     when "card_postponed"
-      "Moved to Not Now by #{event.creator.name}"
+      "Перемещено в «Не сейчас» пользователем #{event.creator.name}"
     when "card_auto_postponed"
-      "Moved to Not Now due to inactivity"
+      "Перемещено в «Не сейчас» из-за бездействия"
     else
-      "Updated by #{event.creator.name}"
+      "Обновлено пользователем #{event.creator.name}"
     end
   end
 
@@ -78,7 +78,7 @@ class Notification::EventPayload < Notification::DefaultPayload
     end
 
     def card_title
-      card.title.presence || "Card #{card.number}"
+      card.title.presence || "Карточка #{card.number}"
     end
 
     def event_particulars

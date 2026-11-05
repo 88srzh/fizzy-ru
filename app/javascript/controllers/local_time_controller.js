@@ -1,7 +1,24 @@
 import { Controller } from "@hotwired/stimulus"
 import { differenceInDays, secondsToDate } from "helpers/date_helpers"
 
-const DEFAULT_LOCALE = "en-US"
+const DEFAULT_LOCALE = "ru-RU"
+
+const RUSSIAN_PLURALS = {
+  year: ["год", "года", "лет"],
+  month: ["месяц", "месяца", "месяцев"],
+  week: ["неделя", "недели", "недель"],
+  day: ["день", "дня", "дней"],
+  hour: ["час", "часа", "часов"],
+  minute: ["минута", "минуты", "минут"]
+}
+
+function pluralForm(quantity, forms) {
+  const mod10 = quantity % 10
+  const mod100 = quantity % 100
+  if (mod10 === 1 && mod100 !== 11) return forms[0]
+  if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) return forms[1]
+  return forms[2]
+}
 
 export default class extends Controller {
   static targets = [ "time", "date", "datetime", "shortdate", "ago", "indays", "daysago", "agoorweekday", "timeordate" ]
@@ -113,13 +130,13 @@ class AgoFormatter {
     if (hours >= 1) return this.#pluralize("hour", hours)
     if (minutes >= 1) return this.#pluralize("minute", minutes)
 
-    return "Less than a minute ago"
+    return "Менее минуты назад"
   }
 
   #pluralize(word, quantity) {
     quantity = Math.floor(quantity)
-    const suffix = (quantity === 1) ? "" : "s"
-    return `${quantity} ${word}${suffix} ago`
+    const forms = RUSSIAN_PLURALS[word]
+    return `${quantity} ${pluralForm(quantity, forms)} назад`
   }
 }
 
@@ -127,9 +144,9 @@ class DaysAgoFormatter {
   format(date) {
     const days = differenceInDays(date, new Date())
 
-    if (days <= 0) return styleableValue("today")
-    if (days === 1) return styleableValue("yesterday")
-    return `${styleableValue(days)} days ago`
+    if (days <= 0) return styleableValue("сегодня")
+    if (days === 1) return styleableValue("вчера")
+    return `${styleableValue(days)} ${pluralForm(days, RUSSIAN_PLURALS.day)} назад`
   }
 }
 
@@ -149,9 +166,9 @@ class InDaysFormatter {
   format(date) {
     const days = differenceInDays(new Date(), date)
 
-    if (days <= 0) return styleableValue("today")
-    if (days === 1) return styleableValue("tomorrow")
-    return `in ${styleableValue(days)} days`
+    if (days <= 0) return styleableValue("сегодня")
+    if (days === 1) return styleableValue("завтра")
+    return `через ${styleableValue(days)} ${pluralForm(days, RUSSIAN_PLURALS.day)}`
   }
 }
 

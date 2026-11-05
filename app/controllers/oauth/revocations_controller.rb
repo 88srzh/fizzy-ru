@@ -42,7 +42,7 @@ class Oauth::RevocationsController < Oauth::BaseController
   private
     def require_token
       unless params[:token].is_a?(String) && params[:token].present?
-        oauth_error "invalid_request", "token is required"
+        oauth_error "invalid_request", "Требуется токен"
       end
     end
 

@@ -91,7 +91,7 @@ module Authentication
         if bearer_token_authenticatable_request?
           authenticate_with_bearer_token
         else
-          request_bearer_authentication error: "invalid_request", error_description: "Bearer tokens authenticate JSON requests only"
+          request_bearer_authentication error: "invalid_request", error_description: "Bearer-токены аутентифицируют только JSON-запросы"
         end
       end
     end
@@ -117,17 +117,17 @@ module Authentication
       access_token = authenticate_with_http_token(scheme: "Bearer") { |token| Identity::AccessToken.find_honored(token) }
 
       if access_token&.audienced?
-        request_bearer_authentication error: "invalid_token", error_description: "The access token is for another resource"
+        request_bearer_authentication error: "invalid_token", error_description: "Токен доступа предназначен для другого ресурса"
       elsif access_token && !reachable_by?(access_token)
-        request_bearer_authentication error: "invalid_token", error_description: "The access token is bound to another account"
+        request_bearer_authentication error: "invalid_token", error_description: "Токен доступа привязан к другому аккаунту"
       elsif access_token&.allows?(request.method)
         Current.access_token = access_token
         Current.identity = access_token.identity
       elsif access_token
         request_bearer_authentication status: access_token.connected_app ? :forbidden : :unauthorized,
-          error: "insufficient_scope", error_description: "The access token is read-only", scope: "write"
+          error: "insufficient_scope", error_description: "Токен доступа доступен только для чтения", scope: "write"
       else
-        request_bearer_authentication error: "invalid_token", error_description: "The access token is expired, revoked, or invalid"
+        request_bearer_authentication error: "invalid_token", error_description: "Срок действия токена доступа истёк, он отозван или недействителен"
       end
     end
 

@@ -1,20 +1,20 @@
 <section class="settings__section">
   <header>
-    <h2 class="divider">Export your data</h2>
-    <div>Download an archive of your Fizzy data.</div>
+    <h2 class="divider">Экспортировать ваши данные</h2>
+    <div>Скачать архив ваших данных Fizzy.</div>
   </header>
 
   <div data-controller="dialog" data-dialog-modal-value="true" data-action="keydown.esc->dialog#close">
-    <button type="button" class="btn" data-action="dialog#open">Begin export...</button>
+    <button type="button" class="btn" data-action="dialog#open">Начать экспорт...</button>
 
     <dialog class="dialog panel panel--wide shadow" data-dialog-target="dialog" style="--panel-size: 48ch;">
-      <h2 class="txt-large">Export your data</h2>
-      <p>This will generate a ZIP archive of all cards you have access to.</p>
-      <p>We’ll email you a link to download the file when it’s ready. The link will expire after 24 hours.</p>
+      <h2 class="txt-large">Экспортировать ваши данные</h2>
+      <p>Будет создан ZIP-архив всех карточек, к которым у вас есть доступ.</p>
+      <p>Мы отправим вам ссылку для скачивания файла, когда он будет готов. Ссылка будет действовать 24 часа.</p>
 
       <div class="flex gap justify-center">
-        <%= button_to "Start export", user_data_exports_path(@user), method: :post, class: "btn btn--link", form: { data: { action: "submit->dialog#close" } } %>
-        <button type="button" class="btn" data-action="dialog#close">Cancel</button>
+        <%= button_to "Начать экспорт", user_data_exports_path(@user), method: :post, class: "btn btn--link", form: { data: { action: "submit->dialog#close" } } %>
+        <button type="button" class="btn" data-action="dialog#close">Отмена</button>
       </div>
     </dialog>
   </div>

@@ -27,7 +27,7 @@ class Oauth::Authorizations::SwitchesController < Oauth::AuthorizationsControlle
 
       redirect_to_login_url
     else
-      render_error "invalid_request", "This request is too long to pick up again after switching. Sign out, sign in as the right person, then connect from the app again."
+      render_error "invalid_request", "Этот запрос слишком длинный, чтобы возобновить его после переключения. Выйдите, войдите под нужным пользователем и снова подключитесь из приложения."
     end
   end
 

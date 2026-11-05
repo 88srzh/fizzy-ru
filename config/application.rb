@@ -35,6 +35,10 @@ module Fizzy
     # be reloaded or eager loaded.
     config.autoload_lib ignore: %w[ assets tasks rails_ext ]
 
+    config.i18n.default_locale = :ru
+    config.i18n.available_locales = [:en, :ru]
+    config.i18n.fallbacks = true
+
     # Enable debug mode for Rails event logging so we get SQL query logs.
     # This was made necessary by the change in https://github.com/rails/rails/pull/55900
     config.after_initialize do

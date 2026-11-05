@@ -1,20 +1,19 @@
-
+ 
 <% if @magic_link.for_sign_in? %>
-  <h1 class="title">Fizzy verification code</h1>
-  <p class="subtitle">Please enter this 6-character verification code on the Fizzy sign-in page:</p>
+  <h1 class="title">Код подтверждения Fizzy</h1>
+  <p class="subtitle">Пожалуйста, введите этот 6-символьный код подтверждения на странице входа в Fizzy:</p>
 <% else %>
-  <h1 class="title">Welcome to Fizzy!</h1>
-  <p class="subtitle">Please enter this 6-character verification code to finish creating your account:</p>
+  <h1 class="title">Добро пожаловать в Fizzy!</h1>
+  <p class="subtitle">Пожалуйста, введите этот 6-символьный код подтверждения, чтобы завершить создание аккаунта:</p>
 <% end %>
 
 <strong class="txt-large"><%= @magic_link.code %></strong>
 
-<p>This code will work for <%= distance_of_time_in_words(MagicLink::EXPIRATION_TIME) %>.</p>
+<p>Этот код будет действовать <%= distance_of_time_in_words(MagicLink::EXPIRATION_TIME) %>.</p>
 
 <% if account = @magic_link.identity.accounts.last %>
-  <p>P.S. You can make your account more secure and sign-in faster with a <%= link_to "Passkey", my_passkeys_url(script_name: account.slug) %></p>
+  <p>P.S. Вы можете сделать аккаунт более безопасным и входить быстрее с помощью <%= link_to "ключа доступа", my_passkeys_url(script_name: account.slug) %></p>
 <% end %>
 
-<p class="footer">Need help? <%= mail_to "support@fizzy.do", "Send us an email"%>.
+<p class="footer">Нужна помощь? <%= mail_to "support@fizzy.do", "Напишите нам"%>.
 </p>
-

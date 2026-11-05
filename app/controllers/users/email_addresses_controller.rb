@@ -24,12 +24,12 @@ class Users::EmailAddressesController < ApplicationController
 
     def ensure_valid_email_address
       if !new_email_address.match?(URI::MailTo::EMAIL_REGEXP)
-        error = "Please enter a valid email address"
+        error = "Введите корректный адрес электронной почты"
       elsif (identity = Identity.find_by_email_address(new_email_address))
         if identity == @user.identity
-          error = "That is already your email address"
+          error = "Это уже ваш адрес электронной почты"
         elsif identity.users.exists?(account: @user.account)
-          error = "You already have a user in this account with that email address"
+          error = "В этом аккаунте уже есть пользователь с таким адресом электронной почты"
         end
       end
 

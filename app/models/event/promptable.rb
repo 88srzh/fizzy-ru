@@ -4,10 +4,10 @@ module Event::Promptable
   def to_prompt
     <<~PROMPT
         BEGIN OF EVENT #{id}
-        ## Event #{action} (#{eventable_type} #{eventable_id}))
+        ## Событие #{action} (#{eventable_type} #{eventable_id}))
 
-        * Created at: #{created_at}
-        * Created by: #{creator.name}
+        * Создано в: #{created_at}
+        * Создано: #{creator.name}
 
         #{eventable.to_prompt}
         END OF EVENT #{id}

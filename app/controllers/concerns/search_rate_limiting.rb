@@ -20,7 +20,7 @@ module SearchRateLimiting
       response.headers["Retry-After"] = RETRY_AFTER.to_i.to_s
 
       respond_to do |format|
-        format.json { render json: { error: "Too many searches. Retry after #{RETRY_AFTER.to_i} seconds." }, status: :too_many_requests }
+        format.json { render json: { error: "Слишком много поисковых запросов. Повторите через #{RETRY_AFTER.to_i} секунд." }, status: :too_many_requests }
         format.any { head :too_many_requests }
       end
     end

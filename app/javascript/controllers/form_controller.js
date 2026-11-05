@@ -36,7 +36,7 @@ export default class extends Controller {
 
       if (isEmpty) {
         event.preventDefault()
-        input.setCustomValidity(input.dataset.validationMessage || "Please fill out this field")
+        input.setCustomValidity(input.dataset.validationMessage || "Пожалуйста, заполните это поле")
         input.reportValidity()
         input.addEventListener("input", () => input.setCustomValidity(""), { once: true })
       }

@@ -7,25 +7,25 @@ module OauthHelper
   # Grouped by what the app is (Oauth::Client#connection_kind), in this order;
   # a group with nothing in it isn't shown.
   CONNECTED_APP_GROUPS = {
-    web: "Apps and assistants on the web",
-    local: "Apps on your devices",
-    fizzy: "Fizzy apps"
+    web: "Приложения и ассистенты в вебе",
+    local: "Приложения на ваших устройствах",
+    fizzy: "Приложения Fizzy"
   }
 
   ACCESS_LEVELS = {
     "read" => {
-      label: "Read only",
-      description: "See your boards, cards, comments and the people in your %{accounts}. It can't change anything."
+      label: "Только чтение",
+      description: "Просмотр ваших досок, карточек, комментариев и людей в ваших %{accounts}. Ничего изменить нельзя."
     },
     "read write" => {
-      label: "Read and write",
-      description: "See everything you can, and act as you: create, edit, move, close and delete cards, comments and boards."
+      label: "Чтение и запись",
+      description: "Видеть всё, что вам доступно, и действовать от вашего имени: создавать, редактировать, перемещать, закрывать и удалять карточки, комментарии и доски."
     }
   }
 
   # A name of nothing but direction controls is no name, so it reads as one.
   def oauth_client_self_name(client)
-    client.name.to_s.gsub(BIDI_CONTROLS, "").presence || "Unnamed app"
+    client.name.to_s.gsub(BIDI_CONTROLS, "").presence || "Безымянное приложение"
   end
 
   # Who the person is dealing with, as far as we can vouch for it. A trusted or
@@ -34,7 +34,7 @@ module OauthHelper
   # host, port included when it isn't the default, or this device.
   def oauth_client_display_identity(client, redirect_uri)
     if client.dynamically_registered?
-      oauth_redirect_host(redirect_uri) || "an app on your device"
+      oauth_redirect_host(redirect_uri) || "приложение на вашем устройстве"
     else
       oauth_client_self_name(client)
     end
@@ -67,7 +67,7 @@ module OauthHelper
 
     levels.map do |scope|
       level = ACCESS_LEVELS.fetch(scope)
-      [ scope, level.merge(description: format(level[:description], accounts: one_account ? "account" : "accounts")) ]
+      [ scope, level.merge(description: format(level[:description], accounts: one_account ? "аккаунт" : "аккаунты")) ]
     end
   end
 

@@ -94,9 +94,9 @@ class Webhook < ApplicationRecord
       uri = URI.parse(url.presence)
 
       if PERMITTED_SCHEMES.exclude?(uri.scheme)
-        errors.add :url, "must use #{PERMITTED_SCHEMES.to_choice_sentence}"
+        errors.add :url, "должен использовать #{PERMITTED_SCHEMES.to_choice_sentence}"
       end
     rescue URI::InvalidURIError
-      errors.add :url, "not a URL"
+      errors.add :url, "не URL-адрес"
     end
 end

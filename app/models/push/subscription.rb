@@ -77,13 +77,13 @@ class Push::Subscription < ApplicationRecord
 
     def validate_endpoint_url
       if endpoint_uri.nil?
-        errors.add(:endpoint, "is not a valid URL")
+        errors.add(:endpoint, "не является корректным URL")
       elsif endpoint_uri.scheme != "https"
-        errors.add(:endpoint, "must use HTTPS")
+        errors.add(:endpoint, "должен использовать HTTPS")
       elsif !permitted_endpoint_host?
-        errors.add(:endpoint, "is not a permitted push service")
+        errors.add(:endpoint, "не является разрешённым push-сервисом")
       elsif resolved_endpoint_ip.nil?
-        errors.add(:endpoint, "resolves to a private or invalid IP address")
+        errors.add(:endpoint, "разрешается в частный или недопустимый IP-адрес")
       end
     end
 

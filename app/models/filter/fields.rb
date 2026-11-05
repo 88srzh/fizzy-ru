@@ -18,11 +18,11 @@ module Filter::Fields
     def indexed_by_human_name(index)
       case index
       when "postponing_soon"
-        "Closing soon"
+        "Скоро закроются"
       when "closed"
-        "Done"
+        "Готово"
       when "all"
-        "Open"
+        "Открытые"
       else
         index.humanize
       end

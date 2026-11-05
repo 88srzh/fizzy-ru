@@ -1,6 +1,6 @@
 <%# Shown on Fizzy, never redirected: the request couldn't be trusted enough
     to send the browser back to the app (see redirect_with_error) %>
-<% @page_title = "Can't authorize this app" %>
+<% @page_title = "Не удаётся авторизовать это приложение" %>
 
 <article class="oauth-consent panel panel--wide shadow center txt-align-start">
   <div class="flex flex-column gap">
@@ -9,7 +9,7 @@
     <p class="margin-none"><%= @error_description %></p>
 
     <p class="txt-small txt-subtle margin-none">
-      Nothing was shared. Close this window and start again from the app. If it keeps happening, let whoever made the app know, and mention this error code: <code><%= @error %></code>
+      Ничего не было передано. Закройте это окно и начните снова из приложения. Если проблема повторяется, сообщите разработчику приложения и укажите этот код ошибки: <code><%= @error %></code>
     </p>
   </div>
 </article>

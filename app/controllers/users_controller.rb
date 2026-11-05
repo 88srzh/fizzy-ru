@@ -50,7 +50,7 @@ class UsersController < ApplicationController
     def ensure_user_is_not_sole_owner
       if @user.sole_owner?
         respond_to do |format|
-          format.html { redirect_to account_settings_path, alert: "You're the only owner of this account and can't be removed" }
+          format.html { redirect_to account_settings_path, alert: "Вы единственный владелец этого аккаунта и не можете быть удалены" }
           format.json { head :unprocessable_entity }
         end
       end

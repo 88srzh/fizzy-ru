@@ -7,7 +7,7 @@ module Authentication::ViaMagicLink
 
   private
     def ensure_development_magic_link_not_leaked
-      unless Rails.env.development?
+      unless Rails.env.development? || ENV["SHOW_MAGIC_LINK_CODE"] == "true"
         raise "Leaking magic link via flash in #{Rails.env}?" if flash[:magic_link_code].present?
       end
     end
@@ -34,7 +34,7 @@ module Authentication::ViaMagicLink
     end
 
     def serve_development_magic_link(magic_link)
-      if Rails.env.development? && magic_link.present?
+      if (Rails.env.development? || ENV["SHOW_MAGIC_LINK_CODE"] == "true") && magic_link.present?
         flash[:magic_link_code] = magic_link.code
         response.set_header("X-Magic-Link-Code", magic_link.code)
       end

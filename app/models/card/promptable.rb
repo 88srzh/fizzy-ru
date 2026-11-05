@@ -9,22 +9,22 @@ module Card::Promptable
     <<~PROMPT
       BEGIN OF CARD #{id}
 
-      **Title:** #{title.first(1000)}
-      **Description:**
+      **Заголовок:** #{title.first(1000)}
+      **Описание:**
 
       #{description.to_plain_text.first(10_000)}
 
-      #### Metadata
+      #### Метаданные
 
       * Id: #{id}
-      * Created by: #{creator.name}}
-      * Assigned to: #{assignees.map(&:name).join(", ")}
-      * Column: #{column_prompt_label}
-      * Created at: #{created_at}}
-      * Board id: #{board_id}
-      * Board name: #{board.name}
-      * Number of comments: #{comments.count}
-      * Path: #{card_path(self, script_name: account.slug)}
+      * Создано: #{creator.name}}
+      * Назначено: #{assignees.map(&:name).join(", ")}
+      * Колонка: #{column_prompt_label}
+      * Создано в: #{created_at}}
+      * Id доски: #{board_id}
+      * Название доски: #{board.name}
+      * Количество комментариев: #{comments.count}
+      * Путь: #{card_path(self, script_name: account.slug)}
 
       END OF CARD #{id}
     PROMPT
@@ -34,14 +34,14 @@ module Card::Promptable
     def column_prompt_label
       if open?
         if postponed?
-          "Not now"
+          "Не сейчас"
         elsif triaged?
           "#{column&.name}"
         else
-          "Maybe?"
+          "Возможно?"
         end
       else
-        "Closed (by #{closed_by&.name} at #{closed_at})"
+        "Закрыто (пользователем #{closed_by&.name} в #{closed_at})"
       end
     end
 end

@@ -1,10 +1,10 @@
-Your Fizzy account "<%= @account.name %>" was cancelled.
+Ваш аккаунт Fizzy "<%= @account.name %>" был отменён.
 
-WHAT HAPPENS NOW?
+ЧТО ТЕПЕРЬ?
 
-- No one can access the account anymore
-- Everything in the account will be deleted in <%= distance_of_time_in_words_to_now(Account::Incineratable::INCINERATION_GRACE_PERIOD.from_now) %>
+- Никто больше не может получить доступ к аккаунту
+- Всё в аккаунте будет удалено через <%= distance_of_time_in_words_to_now(Account::Incineratable::INCINERATION_GRACE_PERIOD.from_now) %>
 
-CHANGED YOUR MIND?
+ПЕРЕДУМАЛИ?
 
-If you want to cancel this deletion and restore your account, send us an email to support@fizzy.do as soon as possible.
+Если вы хотите отменить это удаление и восстановить аккаунт, напишите нам на support@fizzy.do как можно скорее.

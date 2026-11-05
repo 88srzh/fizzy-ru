@@ -62,8 +62,8 @@ class PasskeyButton extends HTMLElement {
     try {
       const options = this.options
 
-      if (!passkeysAvailable()) throw new Error("Passkeys are not supported by this browser")
-      if (!options) throw new Error("Missing passkey options")
+      if (!passkeysAvailable()) throw new Error("Этот браузер не поддерживает ключи доступа")
+      if (!options) throw new Error("Отсутствуют параметры ключа доступа")
 
       await refreshChallenge(options, this.challengeUrl, this.purpose)
       const passkey = await this.perform(options)
@@ -78,7 +78,7 @@ class PasskeyButton extends HTMLElement {
   }
 
   #handleError(error) {
-    console.error("Passkey ceremony failed", error)
+    console.error("Ошибка церемонии ключа доступа", error)
     const type = errorType(error)
     this.#showError(type)
     this.button.dispatchEvent(new CustomEvent("passkey:error", { bubbles: true, detail: { error, type } }))
@@ -158,7 +158,7 @@ class PasskeySignInButton extends PasskeyButton {
     } catch (error) {
       if (error.name === "AbortError") return
 
-      console.error("Passkey conditional mediation failed", error)
+      console.error("Ошибка условного посредничества ключа доступа", error)
       const type = errorType(error)
       this.button.dispatchEvent(new CustomEvent("passkey:error", { bubbles: true, detail: { error, type } }))
     } finally {
@@ -193,7 +193,7 @@ function passkeysAvailable() {
 }
 
 async function refreshChallenge(options, challengeUrl, purpose) {
-  if (!challengeUrl) throw new Error("Missing passkey challenge URL")
+  if (!challengeUrl) throw new Error("Отсутствует URL запроса ключа доступа")
   const token = document.querySelector('meta[name="csrf-token"]')?.content
 
   const body = new URLSearchParams()
@@ -209,7 +209,7 @@ async function refreshChallenge(options, challengeUrl, purpose) {
     body
   })
 
-  if (!response.ok) throw new Error("Failed to refresh challenge")
+  if (!response.ok) throw new Error("Не удалось обновить запрос")
 
   const { challenge } = await response.json()
   options.challenge = challenge

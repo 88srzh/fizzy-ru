@@ -12,7 +12,7 @@ class Assignment < ApplicationRecord
   private
     def within_limit
       if card.assignments.count >= LIMIT
-        errors.add(:base, "Card already has the maximum of #{LIMIT} assignees")
+        errors.add(:base, "Карточка уже содержит максимальное число исполнителей: #{LIMIT}")
       end
     end
 end

@@ -3,14 +3,14 @@
 <% content_for :header do %>
   <div class="header__actions header__actions--start">
     <div class="header__actions header__actions--start">
-      <%= back_link_to "Webhooks", board_webhooks_path, "keydown.left@document->hotkey#click keydown.esc@document->hotkey#click" %>
+      <%= back_link_to "Вебхуки", board_webhooks_path, "keydown.left@document->hotkey#click keydown.esc@document->hotkey#click" %>
     </div>
   </div>
 
   <div class="header__actions header__actions--end">
     <%= link_to edit_board_webhook_path(@webhook.board_id, @webhook), class: "btn" do %>
       <%= icon_tag "pencil" %>
-      <span class="for-screen-reader">Edit</span>
+      <span class="for-screen-reader">Редактировать</span>
     <% end %>
   </div>
 <% end %>
@@ -25,24 +25,24 @@
   </header>
   <% unless @webhook.active? %>
     <div>
-      <%= button_to "Reactivate", board_webhook_activation_path(@webhook.board_id, @webhook), method: :post %>
+      <%= button_to "Активировать", board_webhook_activation_path(@webhook.board_id, @webhook), method: :post %>
     </div>
   <% end %>
 
   <div>
-    <h2 class="margin-none txt-uppercase txt-medium">Secret</h2>
+    <h2 class="margin-none txt-uppercase txt-medium">Секрет</h2>
     <strong><code><%= @webhook.signing_secret %></code></strong>
     <p class="txt-small txt-subtle margin-none">
-      We'll send a <code>X-Webhook-Signature</code> header with each request.
-      You can generate a <code>HMAC</code> using <code>SHA256</code> of the request body with this secret
-      to verify that the request came from us.
+      Мы отправим заголовок <code>X-Webhook-Signature</code> с каждым запросом.
+      Вы можете сгенерировать <code>HMAC</code> с помощью <code>SHA256</code> от тела запроса с этим секретом,
+      чтобы убедиться, что запрос пришёл от нас.
     </p>
   </div>
 
     <div class="flex flex-column">
-      <h2 class="margin-none txt-uppercase txt-medium">Subscribed to</h2>
+      <h2 class="margin-none txt-uppercase txt-medium">Подписан на</h2>
       <% if @webhook.subscribed_actions.empty? %>
-        <p class="margin-none txt-subtle">This Webhook isn't subscribed to any events. It will never trigger.</p>
+        <p class="margin-none txt-subtle">Этот вебхук не подписан ни на одно событие. Он никогда не сработает.</p>
       <% else %>
         <ul class="margin-none unpad-block">
           <% @webhook.subscribed_actions.each do |action| %>
@@ -53,9 +53,9 @@
     </div>
 
     <div class="flex flex-column">
-      <h2 class="margin-none txt-uppercase txt-medium">Deliveries</h2>
+      <h2 class="margin-none txt-uppercase txt-medium">Доставки</h2>
       <% if @webhook.deliveries.empty? %>
-        <p class="margin-none txt-subtle">This Webhook hasn't been triggered yet</p>
+        <p class="margin-none txt-subtle">Этот вебхук ещё не срабатывал</p>
       <% else %>
         <ul class="margin-none unpad-block">
           <%= render partial: "webhooks/delivery", collection: @webhook.deliveries.ordered.limit(20), as: :delivery %>

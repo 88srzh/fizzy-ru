@@ -2,7 +2,7 @@
     the choice is one or the other; a client registered for read alone gets
     the single option, shown so the person still sees what they're granting. %>
 <fieldset class="oauth-access flex flex-column gap-half">
-  <legend class="oauth-access__legend"><strong>Access</strong></legend>
+  <legend class="oauth-access__legend"><strong>Доступ</strong></legend>
 
   <% oauth_access_levels(client, one_account: local_assigns[:one_account]).each do |value, level| %>
     <label class="oauth-access__choice">
@@ -16,9 +16,9 @@
 
   <p class="oauth-access__reach txt-x-small txt-subtle margin-none">
     <% if local_assigns[:one_account] %>
-      It works as you, so it can only reach what you can, in the account above.
+      Оно работает от вашего имени, поэтому может получить только то, что доступно вам, в указанном выше аккаунте.
     <% else %>
-      It works as you, so it can only reach what you can, in every account you belong to.
+      Оно работает от вашего имени, поэтому может получить только то, что доступно вам, во всех аккаунтах, в которых вы состоите.
     <% end %>
   </p>
 </fieldset>

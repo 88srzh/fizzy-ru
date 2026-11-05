@@ -3,7 +3,7 @@
     account_id. With one account there is nothing to choose, so it's named,
     and carried in a hidden field. %>
 <fieldset class="oauth-access flex flex-column gap-half">
-  <legend class="oauth-access__legend"><strong>Account</strong></legend>
+  <legend class="oauth-access__legend"><strong>Аккаунт</strong></legend>
 
   <% if accounts.one? %>
     <% account = accounts.first %>
@@ -18,5 +18,5 @@
     <% end %>
   <% end %>
 
-  <p class="txt-x-small txt-subtle margin-none">The app reaches this account only. Connect it again to add another.</p>
+  <p class="txt-x-small txt-subtle margin-none">Приложение получает доступ только к этому аккаунту. Подключите его снова, чтобы добавить другой.</p>
 </fieldset>

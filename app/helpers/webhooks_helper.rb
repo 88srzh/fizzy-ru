@@ -1,17 +1,17 @@
 module WebhooksHelper
   ACTION_LABELS = {
-    card_published: "Card added",
-    card_title_changed: "Card title changed",
-    card_board_changed: "Card board changed",
-    comment_created: "Comment added",
-    card_assigned: "Card assigned",
-    card_unassigned: "Card unassigned",
-    card_triaged: "Card column changed",
-    card_closed: "Card moved to “Done”",
-    card_reopened: "Card reopened",
-    card_postponed: "Card moved to “Not Now”",
-    card_auto_postponed: "Card moved to “Not Now” due to inactivity",
-    card_sent_back_to_triage: "Card moved back to “Maybe?”"
+    card_published: "Карточка добавлена",
+    card_title_changed: "Название карточки изменено",
+    card_board_changed: "Доска карточки изменена",
+    comment_created: "Комментарий добавлен",
+    card_assigned: "Карточка назначена",
+    card_unassigned: "Назначение карточки снято",
+    card_triaged: "Колонка карточки изменена",
+    card_closed: "Карточка перемещена в «Готово»",
+    card_reopened: "Карточка вновь открыта",
+    card_postponed: "Карточка перемещена в «Не сейчас»",
+    card_auto_postponed: "Карточка перемещена в «Не сейчас» из-за неактивности",
+    card_sent_back_to_triage: "Карточка возвращена в «Возможно?»"
   }.with_indifferent_access.freeze
 
   def webhook_action_options(actions = Webhook::PERMITTED_ACTIONS)
@@ -27,22 +27,22 @@ module WebhooksHelper
   def webhook_attribution(webhook)
     if webhook.creator
       if webhook.created_via_id?
-        "Created by #{webhook.creator.name} via #{webhook_app_name(webhook)}"
+        "Создано пользователем #{webhook.creator.name} через #{webhook_app_name(webhook)}"
       else
-        "Created by #{webhook.creator.name}"
+        "Создано пользователем #{webhook.creator.name}"
       end
     end
   end
 
   def webhook_app_name(webhook)
-    webhook.created_via&.name || "an app that’s since been removed"
+    webhook.created_via&.name || "приложение, которое с тех пор удалено"
   end
 
   def link_to_webhooks(board, &)
     link_to board_webhooks_path(board_id: board),
         class: [ "btn btn--circle-mobile", { "btn--reversed": board.webhooks.any? } ],
-        data: { controller: "tooltip", bridge__overflow_menu_target: "item", bridge_title: "Webhooks" } do
-      icon_tag("world") + tag.span("Webhooks", class: "for-screen-reader")
+        data: { controller: "tooltip", bridge__overflow_menu_target: "item", bridge_title: "Вебхуки" } do
+      icon_tag("world") + tag.span("Вебхуки", class: "for-screen-reader")
     end
   end
 end

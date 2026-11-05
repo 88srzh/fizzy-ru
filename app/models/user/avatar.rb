@@ -40,7 +40,7 @@ module User::Avatar
   private
     def avatar_content_type_allowed
       unless ALLOWED_AVATAR_CONTENT_TYPES.include?(avatar.content_type)
-        errors.add(:avatar, "must be a JPEG, PNG, GIF, or WebP image")
+        errors.add(:avatar, "должно быть изображением JPEG, PNG, GIF или WebP")
       end
     end
 
@@ -51,11 +51,11 @@ module User::Avatar
       height = avatar.blob.metadata[:height]
 
       if width && width > MAX_AVATAR_DIMENSIONS[:width]
-        errors.add(:avatar, "width must be less than #{MAX_AVATAR_DIMENSIONS[:width]}px")
+        errors.add(:avatar, "ширина должна быть меньше #{MAX_AVATAR_DIMENSIONS[:width]}px")
       end
 
       if height && height > MAX_AVATAR_DIMENSIONS[:height]
-        errors.add(:avatar, "height must be less than #{MAX_AVATAR_DIMENSIONS[:height]}px")
+        errors.add(:avatar, "высота должна быть меньше #{MAX_AVATAR_DIMENSIONS[:height]}px")
       end
     end
 end

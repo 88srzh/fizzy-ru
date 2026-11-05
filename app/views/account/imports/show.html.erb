@@ -1,31 +1,31 @@
-<% @page_title = "Import status" %>
+<% @page_title = "Статус импорта" %>
 
 <%= turbo_stream_from @import %>
 
 <div class="panel panel--centered flex flex-column gap-half" style="--panel-size: 54ch;">
-  <h1 class="txt-x-large font-weight-black margin-block-end">Import status</h1>
+  <h1 class="txt-x-large font-weight-black margin-block-end">Статус импорта</h1>
 
   <% case @import.status %>
   <% when "pending", "processing" %>
     <div class="import-status">
-      Your import is in progress. This may take a while for large accounts.
+      Импорт выполняется. Для больших аккаунтов это может занять время.
     </div>
   <% when "completed" %>
     <div class="import-status import-status--success">
-      <div><strong>Your import was successful!</strong></div>
-      <%= link_to "Go to your account →", landing_url(script_name: @import.account.slug), class: "btn btn--link" %>
+      <div><strong>Импорт успешно завершён!</strong></div>
+      <%= link_to "Перейти в аккаунт →", landing_url(script_name: @import.account.slug), class: "btn btn--link" %>
     </div>
   <% when "failed" %>
     <div class="import-status import-status--error">
-      <div><strong>Import failed</strong></div>
+      <div><strong>Импорт не удался</strong></div>
       <% if @import.failed_due_to_conflict? %>
-        <div>The account you’re trying to import already exists. Make sure you’re importing a <%= Fizzy.saas? ? "self-hosted" : "fizzy.do" %> account.</div>
+        <div>Аккаунт, который вы пытаетесь импортировать, уже существует. Убедитесь, что вы импортируете <%= Fizzy.saas? ? "self-hosted" : "fizzy.do" %> аккаунт.</div>
       <% elsif @import.failed_due_to_invalid_export? %>
-        <div>The .zip file you uploaded doesn’t look like a Fizzy account export.</div>
+        <div>Загруженный .zip-файл не похож на экспорт аккаунта Fizzy.</div>
       <% else %>
-        <div>This may be due to corrupted export data or a conflict with existing data. Please try again with a fresh export.</div>
+        <div>Возможно, данные экспорта повреждены или конфликтуют с существующими. Попробуйте снова со свежим экспортом.</div>
       <% end %>
-      <%= link_to "Try again", new_account_import_path, class: "btn" %>
+      <%= link_to "Попробовать снова", new_account_import_path, class: "btn" %>
     </div>
   <% end %>
 </div>

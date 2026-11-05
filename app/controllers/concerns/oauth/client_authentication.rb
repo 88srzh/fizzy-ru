@@ -22,7 +22,7 @@ module Oauth::ClientAuthentication
     def reject_ambiguous_client_credentials
       if client_secret_basic?
         if request.request_parameters["client_secret"].present?
-          oauth_error "invalid_request", "Client credentials must use only one authentication method"
+          oauth_error "invalid_request", "Учётные данные клиента должны использовать только один способ аутентификации"
         elsif basic_client_credentials.nil? || conflicting_client_id?
           client_authentication_failed
         end
@@ -72,9 +72,9 @@ module Oauth::ClientAuthentication
     def client_authentication_failed
       if client_secret_basic?
         response.headers["WWW-Authenticate"] = %(Basic realm="#{oauth_issuer}")
-        oauth_error "invalid_client", "Client authentication failed", status: :unauthorized
+        oauth_error "invalid_client", "Аутентификация клиента не удалась", status: :unauthorized
       else
-        oauth_error "invalid_client", "Client authentication failed"
+        oauth_error "invalid_client", "Аутентификация клиента не удалась"
       end
     end
 

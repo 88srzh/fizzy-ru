@@ -1,12 +1,12 @@
 <% if @export.present? %>
-  <% @page_title = "Download Export" %>
+  <% @page_title = "Скачать экспорт" %>
 <% else %>
-  <% @page_title = "Download Expired" %>
+  <% @page_title = "Ссылка устарела" %>
 <% end %>
 
 <% content_for :header do %>
   <div class="header__actions header__actions--start">
-    <%= back_link_to "Account Settings", account_settings_path, "keydown.left@document->hotkey#click keydown.esc@document->hotkey#click" %>
+    <%= back_link_to "Настройки аккаунта", account_settings_path, "keydown.left@document->hotkey#click keydown.esc@document->hotkey#click" %>
   </div>
 <% end %>
 
@@ -14,14 +14,14 @@
   <h2 class="txt-large font-weight-black margin-none"><%= @page_title %></h2>
 
   <% if @export.present? %>
-    <div>Your export is ready. The download should start automatically.</div>
+    <div>Ваш экспорт готов. Загрузка должна начаться автоматически.</div>
 
-    <%= link_to "Download your data", rails_blob_path(@export.file, disposition: "attachment"),
+    <%= link_to "Скачать ваши данные", rails_blob_path(@export.file, disposition: "attachment"),
           id: "download-link",
           class: "btn btn--link",
           data: { turbo: false, controller: "auto-click" } %>
   <% else %>
-    <div>That download link has expired. You’ll need to <%= link_to "request a new export", account_settings_path, class: "txt-link" %>.</div>
+    <div>Ссылка для скачивания устарела. Вам нужно <%= link_to "запросить новый экспорт", account_settings_path, class: "txt-link" %>.</div>
   <% end %>
 
 </div>

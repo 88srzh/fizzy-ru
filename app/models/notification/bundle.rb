@@ -69,7 +69,7 @@ class Notification::Bundle < ApplicationRecord
 
     def validate_no_overlapping
       if overlapping_bundles.exists?
-        errors.add(:base, "Bundle window overlaps with an existing pending bundle with id #{overlapping_bundles.first.id}")
+        errors.add(:base, "Окно пакета пересекается с существующим ожидающим пакетом с id #{overlapping_bundles.first.id}")
       end
     end
 

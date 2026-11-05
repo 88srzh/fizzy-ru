@@ -50,14 +50,14 @@ module Card::Entropic
 
     def initialize(failures)
       @failures = failures
-      super("Couldn't auto-postpone #{failures.size} #{"card".pluralize(failures.size)}: #{describe(failures)}")
+      super("Не удалось автоматически отложить #{failures.size} #{failures.size == 1 ? "карточку" : "карточек"}: #{describe(failures)}")
     end
 
     private
       def describe(failures)
         described = failures.first(DESCRIBED_FAILURES_LIMIT).map { |card_id, error| "#{card_id} (#{error.class}: #{error.message})" }
         remaining = failures.size - described.size
-        described << "and #{remaining} more" if remaining > 0
+        described << "и ещё #{remaining}" if remaining > 0
         described.join(", ")
       end
   end

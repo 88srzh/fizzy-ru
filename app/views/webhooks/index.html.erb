@@ -1,4 +1,4 @@
-<% @page_title = "Webhooks" %>
+<% @page_title = "Вебхуки" %>
 
 <% content_for :header do %>
   <div class="header__actions header__actions--start">
@@ -14,12 +14,12 @@
       <%= render partial: "webhooks/webhook", collection: @page.records %>
     </ul>
   <% else %>
-    <p>Webhooks can notify another application when something happens in this Fizzy board. You’ll choose which events to subscribe to and provide a URL to receive the data.</p>
-    <p>For example, you could create a webhook that posts to a Campfire chat in Basecamp when new cards are added to Fizzy.</p>
+    <p>Вебхуки могут уведомлять другое приложение, когда что-то происходит на этой доске Fizzy. Вы выберете, на какие события подписаться, и укажете URL для получения данных.</p>
+    <p>Например, можно создать вебхук, который отправляет сообщение в чат Campfire в Basecamp при добавлении новых карточек в Fizzy.</p>
   <% end %>
 
   <%= link_to new_board_webhook_path, class: "btn btn--link" do %>
     <%= icon_tag "add" %>
-    <span>Set up a new webhook</span>
+    <span>Настроить новый вебхук</span>
   <% end %>
 <% end %>

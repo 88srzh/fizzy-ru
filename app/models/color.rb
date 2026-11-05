@@ -26,14 +26,14 @@ class Color
   end
 
   COLORS = {
-    "Blue" => "var(--color-card-default)",
-    "Gray" => "var(--color-card-1)",
-    "Tan" => "var(--color-card-2)",
-    "Yellow" => "var(--color-card-3)",
-    "Lime" => "var(--color-card-4)",
-    "Aqua" => "var(--color-card-5)",
-    "Violet" => "var(--color-card-6)",
-    "Purple" => "var(--color-card-7)",
-    "Pink" => "var(--color-card-8)"
+    "Синий" => "var(--color-card-default)",
+    "Серый" => "var(--color-card-1)",
+    "Бежевый" => "var(--color-card-2)",
+    "Жёлтый" => "var(--color-card-3)",
+    "Лаймовый" => "var(--color-card-4)",
+    "Бирюзовый" => "var(--color-card-5)",
+    "Фиолетовый" => "var(--color-card-6)",
+    "Пурпурный" => "var(--color-card-7)",
+    "Розовый" => "var(--color-card-8)"
   }.collect { |name, value| new(name, value) }.freeze
 end

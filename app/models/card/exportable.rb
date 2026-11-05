@@ -48,7 +48,7 @@ module Card::Exportable
           tag.a(attachable.filename, href: path)
         end
       when ActionText::Attachables::RemoteImage
-        tag.img(src: attachable.url, alt: attachment.alt || "Remote image")
+        tag.img(src: attachable.url, alt: attachment.alt || "Удалённое изображение")
       else
         attachment.to_html
       end
@@ -73,13 +73,13 @@ module Card::Exportable
     def export_status
       case
       when closed?
-        "Done"
+        "Готово"
       when postponed?
-        "Not now"
+        "Не сейчас"
       when column.present?
         column.name
       else
-        "Maybe?"
+        "Возможно?"
       end
     end
 end

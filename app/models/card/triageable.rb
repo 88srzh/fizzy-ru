@@ -17,7 +17,7 @@ module Card::Triageable
   end
 
   def triage_into(column)
-    raise "The column must belong to the card board" unless board == column.board
+    raise "Колонка должна принадлежать доске карточки" unless board == column.board
 
     transaction do
       resume

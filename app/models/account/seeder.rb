@@ -13,7 +13,7 @@ class Account::Seeder
   end
 
   def seed!
-    raise "You can't run in production environments" unless Rails.env.local?
+    raise "Нельзя запускать в production-окружении" unless Rails.env.local?
 
     delete_everything
     seed
@@ -28,71 +28,71 @@ class Account::Seeder
       playground.update! auto_postpone_period: 365.days
 
       # Cards
-      playground.cards.create! creator: creator, title: "Finally, watch this Fizzy orientation video", status: "published", description: <<~HTML
-        <p>There’s a whole lot more you can do in Fizzy. In the video below, 37signals founder and CEO, Jason Fried, will walk you through the basics in just 17 minutes.</p>
-        <action-text-attachment url="https://videos.37signals.com/fizzy/assets/videos/fizzyorientation-4k.mp4" caption="Fizzy orientation" content-type="video/mp4" filename="fizzyorientation-4k.mp4"></action-text-attachment>
+      playground.cards.create! creator: creator, title: "Наконец, посмотрите ознакомительное видео Fizzy", status: "published", description: <<~HTML
+        <p>В Fizzy можно сделать гораздо больше. В видео ниже основатель и CEO 37signals Джейсон Фрид расскажет вам об основах всего за 17 минут.</p>
+        <action-text-attachment url="https://videos.37signals.com/fizzy/assets/videos/fizzyorientation-4k.mp4" caption="Ознакомление с Fizzy" content-type="video/mp4" filename="fizzyorientation-4k.mp4"></action-text-attachment>
       HTML
 
       # TODO: Replace the video here with a screencap of creating a passkey
-      playground.cards.create! creator: creator, title: "Then, set up a Passkey", status: "published", description: <<~HTML
-        <p>Passkeys let you sign in securely without using passwords or email codes. To set one up, open the Fizzy menu and go to “<b><strong>My Profile > Manage Passkeys</b></strong>”. Using a passkey is optional, but recommended.</p>
-        <action-text-attachment url="https://videos.37signals.com/fizzy/assets/videos/creating_a_passkey.mp4" alt="Demo of adding a passkey" caption="Create a passkey to sign in without passwords or email codes" content-type="video/mp4" filename="creating_a_passkey.mp4"></action-text-attachment>
+      playground.cards.create! creator: creator, title: "Затем настройте ключ доступа (Passkey)", status: "published", description: <<~HTML
+        <p>Ключи доступа (Passkeys) позволяют безопасно входить без паролей и кодов из писем. Чтобы настроить ключ, откройте меню Fizzy и перейдите в «<b><strong>Мой профиль > Управление ключами доступа</b></strong>». Использование ключа доступа необязательно, но рекомендуется.</p>
+        <action-text-attachment url="https://videos.37signals.com/fizzy/assets/videos/creating_a_passkey.mp4" alt="Демонстрация добавления ключа доступа" caption="Создайте ключ доступа для входа без паролей и кодов из писем" content-type="video/mp4" filename="creating_a_passkey.mp4"></action-text-attachment>
       HTML
 
-      playground.cards.create! creator: creator, title: "Now, grab the invite link to invite someone else", status: "published", description: <<~HTML
-        <p>Open the Fizzy menu, select “<b><strong>+ Add people</b></strong>”, then copy the invite link. You can give this link to someone else so they can make a login for themselves in your account.</p>
-        <action-text-attachment url="https://videos.37signals.com/fizzy/assets/images/invite-link.gif" alt="Demo of copying invite link" caption="Get a link to invite co-workers" content-type="image/*" filename="invite-link.gif" presentation="gallery"></action-text-attachment>
+      playground.cards.create! creator: creator, title: "Теперь скопируйте ссылку-приглашение, чтобы пригласить кого-то ещё", status: "published", description: <<~HTML
+        <p>Откройте меню Fizzy, выберите «<b><strong>+ Добавить людей</b></strong>», затем скопируйте ссылку-приглашение. Вы можете передать эту ссылку кому-то ещё, чтобы они создали себе вход в ваш аккаунт.</p>
+        <action-text-attachment url="https://videos.37signals.com/fizzy/assets/images/invite-link.gif" alt="Демонстрация копирования ссылки-приглашения" caption="Получите ссылку для приглашения коллег" content-type="image/*" filename="invite-link.gif" presentation="gallery"></action-text-attachment>
       HTML
 
-      playground.cards.create! creator: creator, title: "Then, head back home to check out activity", status: "published", description: <<~HTML
-        <p>Hit “1” or pull down the Fizzy menu and select “Home”.</p>
-        <action-text-attachment url="https://videos.37signals.com/fizzy/assets/images/back-to-home.gif" alt="Demo of visiting Home" caption="Go back to Home for Latest Activity" content-type="image/*" filename="back-to-home.gif" presentation="gallery"></action-text-attachment>
+      playground.cards.create! creator: creator, title: "Затем вернитесь на главную, чтобы посмотреть активность", status: "published", description: <<~HTML
+        <p>Нажмите «1» или откройте меню Fizzy и выберите «Главная».</p>
+        <action-text-attachment url="https://videos.37signals.com/fizzy/assets/images/back-to-home.gif" alt="Демонстрация перехода на главную" caption="Вернитесь на главную, чтобы увидеть последнюю активность" content-type="image/*" filename="back-to-home.gif" presentation="gallery"></action-text-attachment>
       HTML
 
-      playground.cards.create! creator: creator, title: "Now, check out all cards assigned to you", status: "published", description: <<~HTML
-        <p>Pull down the Fizzy menu at the top of the screen, and select “<b><strong>Assigned to me</b></strong>” or just hit “2” on your keyboard any time.</p>
-        <action-text-attachment url="https://videos.37signals.com/fizzy/assets/images/all-assigned.gif" alt="Demo of navigating to 'Assigned to Me'" caption="See all cards assigned to me" content-type="image/*" filename="all-assigned.gif" presentation="gallery"></action-text-attachment>
+      playground.cards.create! creator: creator, title: "Теперь посмотрите все карточки, назначенные вам", status: "published", description: <<~HTML
+        <p>Откройте меню Fizzy в верхней части экрана и выберите «<b><strong>Назначенные мне</b></strong>» или просто нажмите «2» на клавиатуре в любой момент.</p>
+        <action-text-attachment url="https://videos.37signals.com/fizzy/assets/images/all-assigned.gif" alt="Демонстрация перехода к «Назначенным мне»" caption="Посмотрите все карточки, назначенные вам" content-type="image/*" filename="all-assigned.gif" presentation="gallery"></action-text-attachment>
       HTML
 
-      playground.cards.create! creator: creator, title: "Then, open the Fizzy menu", status: "published", description: <<~HTML
-        <p>The Fizzy menu is how you get around the app. Click “<b><strong>Fizzy</b></strong>” at the top of the screen or hit the “J” key on your keyboard to pop it open.</p>
-        <action-text-attachment url="https://videos.37signals.com/fizzy/assets/images/open-menu.gif" alt="Demo of opening the main menu" caption="Open the Fizzy menu" content-type="image/*" filename="open-menu.gif" presentation="gallery"></action-text-attachment>
+      playground.cards.create! creator: creator, title: "Затем откройте меню Fizzy", status: "published", description: <<~HTML
+        <p>Меню Fizzy — это способ навигации по приложению. Нажмите «<b><strong>Fizzy</b></strong>» в верхней части экрана или клавишу «J» на клавиатуре, чтобы открыть его.</p>
+        <action-text-attachment url="https://videos.37signals.com/fizzy/assets/images/open-menu.gif" alt="Демонстрация открытия главного меню" caption="Откройте меню Fizzy" content-type="image/*" filename="open-menu.gif" presentation="gallery"></action-text-attachment>
       HTML
 
-      playground.cards.create! creator: creator, title: "Next, assign this card to yourself", status: "published", description: <<~HTML
-        <p>Click the little head with the + next to it, then pick yourself.</p>
-        <action-text-attachment url="https://videos.37signals.com/fizzy/assets/images/assign-to-self.gif" alt="Demo of assigning a card" caption="Assign this to yourself" content-type="image/*" filename="assign-to-self.gif" presentation="gallery"></action-text-attachment>
+      playground.cards.create! creator: creator, title: "Далее назначьте эту карточку на себя", status: "published", description: <<~HTML
+        <p>Нажмите на маленькую голову со знаком + рядом с ней, затем выберите себя.</p>
+        <action-text-attachment url="https://videos.37signals.com/fizzy/assets/images/assign-to-self.gif" alt="Демонстрация назначения карточки" caption="Назначьте это на себя" content-type="image/*" filename="assign-to-self.gif" presentation="gallery"></action-text-attachment>
       HTML
 
-      playground.cards.create! creator: creator, title: "Now, tag this card “Design” then move it to YES", status: "published", description: <<~HTML
-        <p>Click the little Tag icon, type “design”, then “<b><strong>Create tag</b></strong>”. Then, move the card to the new “YES” column you created in the previous step.</p>
-        <action-text-attachment url="https://videos.37signals.com/fizzy/assets/images/tag-design.gif" alt="Demo of tagging a card" caption="Tag this #design" content-type="image/*" filename="tag-design.gif" presentation="gallery"></action-text-attachment>
+      playground.cards.create! creator: creator, title: "Теперь отметьте эту карточку тегом «Design», затем переместите её в YES", status: "published", description: <<~HTML
+        <p>Нажмите на маленькую иконку тега, введите «design», затем «<b><strong>Создать тег</b></strong>». Затем переместите карточку в новую колонку «YES», созданную на предыдущем шаге.</p>
+        <action-text-attachment url="https://videos.37signals.com/fizzy/assets/images/tag-design.gif" alt="Демонстрация добавления тега к карточке" caption="Отметьте это тегом #design" content-type="image/*" filename="tag-design.gif" presentation="gallery"></action-text-attachment>
       HTML
 
-      playground.cards.create! creator: creator, title: "Next, make two more columns", status: "published", description: <<~HTML
+      playground.cards.create! creator: creator, title: "Далее создайте ещё две колонки", status: "published", description: <<~HTML
         <ol>
-          <li>Make one called "Yes"</li>
-          <li>Make another called "Working on"</li>
+          <li>Создайте одну под названием "Yes"</li>
+          <li>Создайте ещё одну под названием "Working on"</li>
         </ol>
-        <p>Go back to the Board view, click the little “+” to the right of the DONE column, name the column, pick a color, then do it again.</p>
+        <p>Вернитесь к виду доски, нажмите маленький «+» справа от колонки DONE, назовите колонку, выберите цвет и повторите снова.</p>
         <p><br></p>
-        <p>After that, drag this card to “DONE” or select “DONE” in the sidebar.</p>
-        <action-text-attachment url="https://videos.37signals.com/fizzy/assets/images/make-columns.gif" alt="Demo of adding columns" caption="Make two more columns" content-type="image/*" filename="make-columns.gif" presentation="gallery"></action-text-attachment>
+        <p>После этого перетащите эту карточку в «DONE» или выберите «DONE» на боковой панели.</p>
+        <action-text-attachment url="https://videos.37signals.com/fizzy/assets/images/make-columns.gif" alt="Демонстрация добавления колонок" caption="Создайте ещё две колонки" content-type="image/*" filename="make-columns.gif" presentation="gallery"></action-text-attachment>
       HTML
 
-      playground.cards.create! creator: creator, title: "Second, move this card to NOT NOW", status: "published", description: <<~HTML
-        <p>You can either select “NOT NOW” over in the sidebar, or you can go back out to the board view and drag this card into the “NOT NOW” column on the left side.</p>
+      playground.cards.create! creator: creator, title: "Во-вторых, переместите эту карточку в NOT NOW", status: "published", description: <<~HTML
+        <p>Вы можете либо выбрать «NOT NOW» на боковой панели, либо вернуться к виду доски и перетащить эту карточку в колонку «NOT NOW» слева.</p>
         <p><br></p>
-        <action-text-attachment url="https://videos.37signals.com/fizzy/assets/images/not-now.gif" alt="Demo of moving a card to Not Now" caption="Move to Not Now" content-type="image/*" filename="not-now.gif" presentation="gallery"></action-text-attachment>
+        <action-text-attachment url="https://videos.37signals.com/fizzy/assets/images/not-now.gif" alt="Демонстрация перемещения карточки в Not Now" caption="Переместить в Not Now" content-type="image/*" filename="not-now.gif" presentation="gallery"></action-text-attachment>
       HTML
 
-      playground.cards.create! creator: creator, title: "First, rename this card", status: "published", description: <<~HTML
+      playground.cards.create! creator: creator, title: "Сначала переименуйте эту карточку", status: "published", description: <<~HTML
         <ol>
-          <li>Click the title and you can rename the card, change the description, or add more information to the card.</li>
-          <li>Then, hit "Mark as Done" at the bottom of the card.</li>
-          <li>Finally, hit “<b><strong>Back to Playground</strong></b>” in the top left of the screen to go back to the board.</li>
+          <li>Нажмите на заголовок, и вы сможете переименовать карточку, изменить описание или добавить больше информации.</li>
+          <li>Затем нажмите "Отметить как готовую" внизу карточки.</li>
+          <li>Наконец, нажмите “<b><strong>Назад в Playground</strong></b>” в верхнем левом углу экрана, чтобы вернуться на доску.</li>
         </ol>
-        <action-text-attachment url="https://videos.37signals.com/fizzy/assets/images/rename.gif" alt="Demo of renaming a card" caption="Rename this card" content-type="image/*" filename="rename.gif" presentation="gallery"></action-text-attachment>
+        <action-text-attachment url="https://videos.37signals.com/fizzy/assets/images/rename.gif" alt="Демонстрация переименования карточки" caption="Переименуйте эту карточку" content-type="image/*" filename="rename.gif" presentation="gallery"></action-text-attachment>
       HTML
     end
 

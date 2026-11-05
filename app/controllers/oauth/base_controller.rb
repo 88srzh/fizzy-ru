@@ -56,7 +56,7 @@ class Oauth::BaseController < ApplicationController
     end
 
     def malformed_parameters_description(names)
-      "#{names.to_sentence} must #{names.one? ? "be" : "each be"} a single string"
+      "#{names.to_sentence} #{names.one? ? "должен быть строкой" : "каждый должен быть строкой"}"
     end
 
     # Discovery follows acceptance (see Oauth::Availability): a dark server
@@ -181,7 +181,7 @@ class Oauth::BaseController < ApplicationController
     # so a burst of retries doesn't read as a spike of failures.
     def oauth_rate_limit_exceeded
       ActiveSupport::Notifications.instrument "rate_limit.oauth", endpoint: controller_name
-      render_oauth_error "slow_down", "Too many requests", status: :too_many_requests
+      render_oauth_error "slow_down", "Слишком много запросов", status: :too_many_requests
     end
 
     def render_oauth_error(error, description, status:)

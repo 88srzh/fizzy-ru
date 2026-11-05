@@ -28,8 +28,7 @@ class Event::Description
 
     def creator_tag
       tag.span data: { creator_id: event.creator.id } do
-        tag.span("You", data: { only_visible_to_you: true }) +
-        tag.span(event.creator.name, data: { only_visible_to_others: true })
+        tag.span("Вы", data: { only_visible_to_you: true }) +        tag.span(event.creator.name, data: { only_visible_to_others: true })
       end
     end
 
@@ -50,7 +49,7 @@ class Event::Description
     end
 
     def comment_sentence(creator, card_title)
-      "#{creator} commented on #{card_title}"
+      "#{creator} прокомментировал(а) #{card_title}"
     end
 
     def action_sentence(creator, card_title)
@@ -60,17 +59,17 @@ class Event::Description
       when "card_unassigned"
         unassigned_sentence(creator, card_title)
       when "card_published"
-        "#{creator} added #{card_title}"
+        "#{creator} добавил(а) #{card_title}"
       when "card_closed"
-        %(#{creator} moved #{card_title} to "Done")
+        %(#{creator} переместил(а) #{card_title} в "Готово")
       when "card_reopened"
-        "#{creator} reopened #{card_title}"
+        "#{creator} вновь открыл(а) #{card_title}"
       when "card_postponed"
-        %(#{creator} moved #{card_title} to "Not Now")
+        %(#{creator} переместил(а) #{card_title} в "Не сейчас")
       when "card_auto_postponed"
-        %(#{card_title} moved to "Not Now" due to inactivity)
+        %(#{card_title} перемещено в "Не сейчас" из-за бездействия)
       when "card_resumed"
-        "#{creator} resumed #{card_title}"
+        "#{creator} возобновил(а) #{card_title}"
       when "card_title_changed"
         renamed_sentence(creator, card_title)
       when "card_board_changed", "card_collection_changed"
@@ -78,32 +77,32 @@ class Event::Description
       when "card_triaged"
         triaged_sentence(creator, card_title)
       when "card_sent_back_to_triage"
-        %(#{creator} moved #{card_title} back to "Maybe?")
+        %(#{creator} переместил(а) #{card_title} обратно в "Возможно?")
       end
     end
 
     def assigned_sentence(creator, card_title)
       if event.assignees.include?(user)
-        "#{creator} will handle #{card_title}"
+        "#{creator} возьмётся за #{card_title}"
       else
-        "#{creator} assigned #{assignee_names} to #{card_title}"
+        "#{creator} назначил(а) #{assignee_names} на #{card_title}"
       end
     end
 
     def unassigned_sentence(creator, card_title)
-      "#{creator} unassigned #{unassigned_names} from #{card_title}"
+      "#{creator} снял(а) назначение с #{unassigned_names} по карточке #{card_title}"
     end
 
     def renamed_sentence(creator, card_title)
-      %(#{creator} renamed #{card_title} (was: "#{old_title}"))
+      %(#{creator} переименовал(а) #{card_title} (было: "#{old_title}"))
     end
 
     def moved_sentence(creator, card_title)
-      %(#{creator} moved #{card_title} to "#{new_location}")
+      %(#{creator} переместил(а) #{card_title} в "#{new_location}")
     end
 
     def triaged_sentence(creator, card_title)
-      %(#{creator} moved #{card_title} to "#{column}")
+      %(#{creator} переместил(а) #{card_title} в "#{column}")
     end
 
     def assignee_names
@@ -111,7 +110,7 @@ class Event::Description
     end
 
     def unassigned_names
-      h(event.assignees.include?(user) ? "yourself" : assignee_names)
+      h(event.assignees.include?(user) ? "себя" : assignee_names)
     end
 
     def old_title

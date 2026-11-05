@@ -8,7 +8,7 @@ export default class extends Controller {
   static values = {
     selectPropertyName: { type: String, default: "aria-checked" },
     defaultValue: String,
-    noSelectionLabel: { type: String, default: "No selection" },
+    noSelectionLabel: { type: String, default: "Не выбрано" },
     labelPrefix: String
   }
 
@@ -44,8 +44,8 @@ export default class extends Controller {
 
     const labels = this.#selectedItems.map(item => item.dataset.multiSelectionComboboxLabel)
     const sentence = toSentence(labels, {
-      two_words_connector: " or ",
-      last_word_connector: ", or "
+      two_words_connector: " или ",
+      last_word_connector: ", или "
     })
 
     return this.hasLabelPrefixValue ? `${this.labelPrefixValue} ${sentence}` : sentence

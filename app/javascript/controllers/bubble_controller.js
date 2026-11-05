@@ -38,9 +38,9 @@ export default class extends Controller {
 
   #showEntropy() {
     this.#render({
-      top: this.#entropyCleanupInDays < 1 ? this.entropyValue.action : `${this.entropyValue.action} in`,
+      top: this.#entropyCleanupInDays < 1 ? this.entropyValue.action : `${this.entropyValue.action} через`,
       center: this.#entropyCleanupInDays < 1 ? "!" : this.#entropyCleanupInDays,
-      bottom: this.#entropyCleanupInDays < 1 ? "Today" : (this.#entropyCleanupInDays === 1 ? "day" : "days"),
+      bottom: this.#entropyCleanupInDays < 1 ? "Сегодня" : pluralDays(this.#entropyCleanupInDays),
     })
   }
 
@@ -60,10 +60,11 @@ export default class extends Controller {
   }
 
   #showStalled() {
+    const days = signedDifferenceInDays(new Date(this.stalledValue.lastActivitySpikeAt), new Date())
     this.#render({
-      top: "Stalled for",
-      center: signedDifferenceInDays(new Date(this.stalledValue.lastActivitySpikeAt), new Date()),
-      bottom: "days"
+      top: "Застряла на",
+      center: days,
+      bottom: pluralDays(days)
     })
   }
 
@@ -74,4 +75,12 @@ export default class extends Controller {
   #show() {
     this.element.removeAttribute("hidden")
   }
+}
+
+function pluralDays(n) {
+  const mod10 = n % 10
+  const mod100 = n % 100
+  if (mod10 === 1 && mod100 !== 11) return "день"
+  if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) return "дня"
+  return "дней"
 }

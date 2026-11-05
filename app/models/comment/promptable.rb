@@ -9,17 +9,17 @@ module Comment::Promptable
     <<~PROMPT
         BEGIN OF COMMENT #{id}
 
-        **Content:**
+        **Содержание:**
 
         #{body.to_plain_text.first(5000)}
 
-        #### Metadata
+        #### Метаданные
 
         * Id: #{id}
-        * Card id: #{card.number}
-        * Card title: #{card.title}
-        * Created by: #{creator.name}}
-        * Created at: #{created_at}}
+        * Id карточки: #{card.number}
+        * Заголовок карточки: #{card.title}
+        * Создано: #{creator.name}}
+        * Создано в: #{created_at}}
         * Path: #{card_path(card, anchor: ActionView::RecordIdentifier.dom_id(self), script_name: account.slug)}
         END OF COMMENT #{id}
       PROMPT

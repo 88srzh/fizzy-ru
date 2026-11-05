@@ -15,8 +15,8 @@ export function filterMatches(text, potentialMatch) {
 export function toSentence(array, options = {}) {
   const defaultConnectors = {
     words_connector: ", ",
-    two_words_connector: " and ",
-    last_word_connector: ", and "
+    two_words_connector: " и ",
+    last_word_connector: ", и "
   }
 
   const connectors = { ...defaultConnectors, ...options }

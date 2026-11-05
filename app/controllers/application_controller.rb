@@ -27,6 +27,6 @@ class ApplicationController < ActionController::Base
   # that too, and a handler declared there would shadow ones added to their
   # base controller after.
   rescue_from Identity::AccessToken::Disconnected do
-    request_bearer_authentication error: "invalid_token", error_description: "The access token is expired, revoked, or invalid"
+    request_bearer_authentication error: "invalid_token", error_description: "Срок действия токена доступа истёк, он отозван или недействителен"
   end
 end

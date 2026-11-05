@@ -275,7 +275,7 @@ class Oauth::Client < ApplicationRecord
     # unsaved change to the issuer's client_id mustn't let it cascade.
     def refuse_to_destroy_personal_access
       if client_id_in_database == PERSONAL_ACCESS_CLIENT_ID
-        errors.add :base, "The personal access token issuer can't be deleted"
+        errors.add :base, "Издателя персонального токена доступа нельзя удалить"
         throw :abort
       end
     end
@@ -288,11 +288,11 @@ class Oauth::Client < ApplicationRecord
     def protected_resource_is_valid
       if protected_resource.present?
         if dynamically_registered? || !confidential?
-          errors.add :protected_resource, "may only be set on an operator-provisioned confidential client"
+          errors.add :protected_resource, "может быть установлен только для конфиденциального клиента, предоставленного оператором"
         end
 
         if protected_resource.length > 255
-          errors.add :protected_resource, "is too long"
+          errors.add :protected_resource, "слишком длинный"
         end
       end
     end
@@ -301,7 +301,7 @@ class Oauth::Client < ApplicationRecord
       if redirect_uris.all? { |uri| uri.is_a?(String) && uri.length <= MAXIMUM_REDIRECT_URI_LENGTH }
         redirect_uris.each { |uri| validate_redirect_uri(uri) }
       else
-        errors.add :redirect_uris, "must each be a URI of at most #{MAXIMUM_REDIRECT_URI_LENGTH} characters"
+        errors.add :redirect_uris, "каждый должен быть URI длиной не более #{MAXIMUM_REDIRECT_URI_LENGTH} символов"
       end
     end
 
@@ -309,14 +309,14 @@ class Oauth::Client < ApplicationRecord
       parsed = URI.parse(uri)
 
       unless parsed.fragment.nil?
-        errors.add :redirect_uris, "must not contain fragments"
+        errors.add :redirect_uris, "не должен содержать фрагменты"
       end
 
       if self_registered? && !Oauth.dcr_redirect_shape?(parsed)
-        errors.add :redirect_uris, "must be a local loopback, https or allowed app-scheme URI for dynamically registered clients"
+        errors.add :redirect_uris, "должен быть локальным loopback, https или разрешённым app-scheme URI для динамически регистрируемых клиентов"
       end
     rescue URI::InvalidURIError
-      errors.add :redirect_uris, "includes an invalid URI"
+      errors.add :redirect_uris, "содержит недопустимый URI"
     end
 
     # As consent tells it (OauthHelper): a loopback host on http or https, or an
@@ -346,7 +346,7 @@ class Oauth::Client < ApplicationRecord
       unvetted.reject! { |host| Oauth.dcr_allowed_https_host?(host) }
 
       if unvetted.any?
-        errors.add :redirect_uris, "names an https host not allowed for dynamic registration: #{unvetted.join(", ")}"
+        errors.add :redirect_uris, "содержит https-хост, не разрешённый для динамической регистрации: #{unvetted.join(", ")}"
       end
     end
 
