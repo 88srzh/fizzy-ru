@@ -14,6 +14,16 @@ Default branch: `main`
 
 Self-hosted deploys run Kamal against `config/deploy.yml` — see `docs/kamal-deployment.md`.
 
+## Fork workflow (88srzh/fizzy-ru)
+
+This checkout is a public fork used for the Russian localization (`ru` branch).
+
+- Never commit directly to `ru` or `main`. Create a topic branch and open a pull request against `ru`.
+- The maintainer reviews and merges the pull request. Do not merge it yourself.
+- Deploy only after the maintainer confirms the merge. Never deploy unmerged work.
+- Keep deployment secrets outside the repository (a `0600` env file is fine). Never commit them.
+- After deploying, check the container health endpoint and report the result.
+
 ## SaaS mode
 
 For local agent work, `tmp/saas.txt` is the checkout-level SaaS switch used by `bin/setup`. When present, read `saas/AGENTS.md` before continuing. Otherwise, do not apply its instructions.
