@@ -41,3 +41,8 @@
 
 /config/credentials/*.key
 .DS_Store
+
+# Ignore local Kamal secrets. saas/.kamal/secrets.* are tracked scripts that
+# fetch values from 1Password; these patterns cover the root deploy only.
+/.kamal/secrets
+/.kamal/secrets.*
